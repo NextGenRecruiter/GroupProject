@@ -32,6 +32,7 @@
 class SequenceSet
 {
   private:
+    // Here is a doubly linked list
     std::list <std::string> data;
 
     void showData(){
