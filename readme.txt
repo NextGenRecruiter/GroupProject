@@ -1,9 +1,15 @@
 /*
 
    FILE STRUCTURE:
-        - readme.txt -> this file
+        - readme.txt          -> this file
         - testSequenceSet.cpp -> This is a test driver to show the functionality of the SequenceSet
-        - SequenceSet.h -> This is the header file to contain the class used in both files.
+        - main.cpp            -> Can be renamed. This is the main program to handle the data.
+        - SequenceSet.h       -> This is the header file to contain the class used in both files.
+        - Files
+            - us_postal_codes_formated.txt         -> data formated cleanly
+            - us_postal_codes_column_reorder.txt   -> data in differnt order by column
+            - us_postal_codes_row_randomized.txt   -> data in different order by randomized row
+            - us_postal_codes.xlsx                 -> excel file with the data
 
 
 
