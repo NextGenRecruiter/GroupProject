@@ -10,9 +10,12 @@
 */
 
 #include<iostream>
-
+#include <cstdio>
 #include "SequenceSet.h"
 
+/*
+    Here is the main function of the test driver.
+*/
 int main(){
     SequenceSet test;
     
