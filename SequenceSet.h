@@ -34,7 +34,7 @@ class SequenceSet
   
   public:
     SequenceSet(){
-      x = 10;
+      x = 15;
       std::cout << x << std::endl;
     }
 
