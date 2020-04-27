@@ -20,7 +20,7 @@
 int main(){
     SequenceSet test;
     
-    test = new SequenceSet();
+    test = SequenceSet();
     
     std::cout << "This is the test program for the SequenceSet class. ";
     std::getchar();

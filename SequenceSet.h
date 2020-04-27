@@ -2,6 +2,7 @@
   Authors: Jacob Hopkins
   Date: 4/27/2020
 */
+#include <iostream>
 
 /*
   This is a datatype for handling large file in and out of RAM.
@@ -28,5 +29,14 @@
 */
 class SequenceSet
 {
+  private:
+    int x;
+  
+  public:
+    SequenceSet(){
+      x = 10;
+      std::cout << x << std::endl;
+    }
+
 
 };

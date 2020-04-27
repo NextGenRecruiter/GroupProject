@@ -40,9 +40,7 @@
 */
 int main(){
   
-  SequenceSet data;
-  
-  data = new SequenceSet();
+  SequenceSet data = SequenceSet();
   
   
   std::getchar();
