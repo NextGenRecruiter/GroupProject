@@ -3,6 +3,8 @@
   Date: 4/27/2020
 */
 #include <iostream>
+#include <string>
+#include <list>
 
 /*
   This is a datatype for handling large file in and out of RAM.
@@ -30,12 +32,22 @@
 class SequenceSet
 {
   private:
-    int x;
+    std::list <std::string> data;
   
   public:
     SequenceSet(){
-      x = 25;
-      std::cout << x << std::endl;
+      data = {"test"};
+      std::cout << data.begin() << std::endl;
+    }
+
+    int create(){
+
+      return 0;
+    }
+
+    int load(){
+
+      return 0;
     }
 
 
