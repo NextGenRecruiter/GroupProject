@@ -1,4 +1,13 @@
 /*
+
+   FILE STRUCTURE:
+        - readme.txt -> this file
+        - testSequenceSet.cpp -> This is a test driver to show the functionality of the SequenceSet
+        - SequenceSet.h -> This is the header file to contain the class used in both files.
+
+
+
+
     
    WHAT TO SUBMIT:
     - A Design Document for the Sequence Set class and for the test driver program.
