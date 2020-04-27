@@ -2,6 +2,7 @@
     Authors: Jacob Hopkins
     Date: 4/27/2020
 
+    testSequenceSet.cpp
     This is a test program.
     
     Sequence set is a class to handle reading data into and out of files and processing with performance.
