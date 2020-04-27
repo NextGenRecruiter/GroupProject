@@ -33,11 +33,18 @@ class SequenceSet
 {
   private:
     std::list <std::string> data;
+
+    void showData(){
+      std::list<std::string> :: iterator i;
+      for (i = data.begin(); i != data.end() ; ++i)
+        std::cout << *i << " ";
+      std::cout << '\n';
+    }
   
   public:
     SequenceSet(){
       data = {"test"};
-      std::cout << data.begin() << std::endl;
+      showData();
     }
 
     int create(){
