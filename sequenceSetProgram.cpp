@@ -12,6 +12,22 @@
         - The Test Driver
     - A User Manual
     - DyOxygen the Code
+    
+ Specifications for a program which uses the Sequence Set class:
+    The application program will iterate through the sequence set displaying (neatly)
+    the Northernmost, Southernmost, Easternmost, and Westernmost zip code for a specified state.
+    {You can verify the results by sorting the Excel source data file first by state, then by longitude or by latitude}
+
+    Also, the application program, using a different set of command line flags,
+    will display (neatly) the State and Place Name for a specified Zip Code (or set of Zip Codes).
+
+    Run the test driver program to build the full Sequence Set file (and index file);
+    Run the application program specifying the Sequence Set file and the State on the command line;
+    Use the Unix script command to show:
+        the building of the Sequence Set file,
+        the repeated running of the application program and its output for several states,
+        the repeated running the application program to display the State and Place Name for several Zip Codes. 
+
 */
 
 
@@ -24,9 +40,9 @@
 */
 int main(){
   
-  SequenceSet test;
+  SequenceSet data;
   
-  test = new SequenceSet();
+  data = new SequenceSet();
   
   
   std::getchar();
