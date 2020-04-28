@@ -1,11 +1,11 @@
 /*
-  Authors: Jacob Hopkins, Misky Abshir, and Tyler Willard
+  Authors: Jacob Hopkins, Misky Abshir, Tyler Willard
   Date: 4/27/2020
 */
 #include <iostream>
 #include <string>
 #include <list>
-using namespace std;
+
 /*
   This is a datatype for handling large file in and out of RAM.
   
@@ -32,7 +32,6 @@ using namespace std;
 class SequenceSet
 {
   private:
-  static const int blocksize = 1500;
     // Here is a doubly linked list
     std::list <std::string> data;
 
@@ -42,38 +41,57 @@ class SequenceSet
         std::cout << *i << " ";
       std::cout << '\n';
     }
-    struct block
-		{
-			block* next;
-			block* prev;
-			int zip[blocksize];
-			string placename[blocksize];
-			string state[blocksize];
-			string county[blocksize];
-			float latitude[blocksize];
-			float longitude[blocksize];
-		}typedef *blockptr;
-		blockptr blockhead;
-		blockptr current;
-
+  
   public:
-    SequenceSet();
-    int create();
-    bool is_open();
-    void search();
-    void populate();
-    void insert();
-    void remove();
-    void update();
-    void display_record();
-    void display_SS();
-    void validate();
-    void buffer(string, blockptr, int);
-	  void addzip(int, int, blockptr);
-	  void addplace(string, int, blockptr);
-	  void addstate(string , int, blockptr);
-	  void addcounty(string, int, blockptr);
-	  void addlat(float, int, blockptr);
-	  void addlong(float, int, blockptr);
+    SequenceSet(){
+      data = {"test"};
+      showData();
+    }
+
+    int create(){
+
+      return 0;
+    }
+
+    int load(){
+
+      return 0;
+    }
+
+    bool is_open(){
+
+    }
+
+    int search(){
+
+    }
+
+    int populate(){
+
+    }
+
+    int insert(){
+
+    }
+
+    int remove(){
+
+    }
+
+    int update(){
+
+    }
+
+    void display_record(){
+
+    }
+
+    void display_SS(){
+
+    }
+
+    void validate(){
+      
+    }
 
 };
