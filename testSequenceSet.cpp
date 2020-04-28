@@ -8,6 +8,10 @@
     Sequence set is a class to handle reading data into and out of files and processing with performance.
 
     This program is to show the functionality of the SequenceSet class found in 'SequenceSet.h'
+
+    In video 4:
+    14:20
+    
 */
 
 #include<iostream>

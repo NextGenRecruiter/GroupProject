@@ -28,6 +28,9 @@
         the repeated running of the application program and its output for several states,
         the repeated running the application program to display the State and Place Name for several Zip Codes. 
 
+
+  In Video 4:
+  14:30
 */
 
 

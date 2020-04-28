@@ -38,6 +38,7 @@ class SequenceSet
   
   public:
     SequenceSet();
+    ~SequenceSet();
     int create();
     int load();
     bool is_open();
@@ -109,12 +110,21 @@ SequenceSet::SequenceSet(){
 
 }
 
+/*
+  Here we have the default destructor for the SequenceSet
+
+*/
+SequenceSet::~SequenceSet(){
+  delete &blocks;
+}
+
 
 /*
   Method: Create
   param:
   return:
   purpose:
+  here we take the data file and create the sequence set file
 
 */
 int SequenceSet::create(){
@@ -128,7 +138,7 @@ int SequenceSet::create(){
   param:
   return:
   purpose:
-
+  here we load blocks from the sequence set file into ram
 */
 int SequenceSet::load(){
 
