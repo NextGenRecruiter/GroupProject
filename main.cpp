@@ -39,10 +39,16 @@
   Here is the main function to start the program.
 */
 int main(){
-  
+  /*
+    Here we declare and initialize the sequence set data.
+  */
   SequenceSet data = SequenceSet();
   
   
-  std::getchar();
-  return 0; 
+  //forbiden code here
+  //wait for character so the screen does not disappear
+  getchar();
+
+  //return that the program ran correctly
+  return 0;
 }
