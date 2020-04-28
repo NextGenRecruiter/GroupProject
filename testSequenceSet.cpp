@@ -13,16 +13,44 @@
 #include<iostream>
 #include <cstdio>
 #include "SequenceSet.h"
-using namespace std;
+
 /*
     Here is the main function of the test driver.
 */
 int main(){
+
+    std::cout << "This is the test program for the SequenceSet class. " << std::endl;
+
+
+    /*
+        Here we declare a SequenceSet named test.
+    */
+    std::cout << "Declaring SequenceSet: test" << std::endl;
     SequenceSet test;
+    std::cout << "Declaring SequenceSet complete." << std::endl << std::endl;
     
+
+    /*
+        Here we initialize the sequence set test.
+    */
+    std::cout << "Inita" << std::endl;
     test = SequenceSet();
+
+
+    /*
+        
+    */
+    std::cout << "" << std::endl;
     
-    cout << "This is the test program for the SequenceSet class. ";
+    std::cout << " complete." << std::endl << std::endl;
+    
+    
+    
+    //forbiden code here
+    //wait for character so the screen does not disappear
     getchar();
+
+    //return that the program ran correctly
     return 0;
 }
+    
