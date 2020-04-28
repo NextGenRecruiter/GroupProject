@@ -1,5 +1,7 @@
 /*
 
+    https://github.com/NextGenRecruiter/GroupProject
+
    FILE STRUCTURE:
         - readme.txt          -> this file
         - testSequenceSet.cpp -> This is a test driver to show the functionality of the SequenceSet
