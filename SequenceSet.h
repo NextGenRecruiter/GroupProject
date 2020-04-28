@@ -58,5 +58,40 @@ class SequenceSet
       return 0;
     }
 
+    bool is_open(){
+
+    }
+
+    int search(){
+
+    }
+
+    int populate(){
+
+    }
+
+    int insert(){
+
+    }
+
+    int remove(){
+
+    }
+
+    int update(){
+
+    }
+
+    void display_record(){
+
+    }
+
+    void display_SS(){
+
+    }
+
+    void validate(){
+      
+    }
 
 };
