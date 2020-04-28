@@ -3,7 +3,6 @@
   Date: 4/27/2020
 */
 #include <iostream>
-#include <string>
 #include <list>
 
 /*
@@ -32,66 +31,185 @@
 class SequenceSet
 {
   private:
+    struct Block;
     // Here is a doubly linked list
-    std::list <std::string> data;
-
-    void showData(){
-      std::list<std::string> :: iterator i;
-      for (i = data.begin(); i != data.end() ; ++i)
-        std::cout << *i << " ";
-      std::cout << '\n';
-    }
+    std::list <Block> data;
   
   public:
-    SequenceSet(){
-      data = {"test"};
-      showData();
-    }
-
-    int create(){
-
-      return 0;
-    }
-
-    int load(){
-
-      return 0;
-    }
-
-    bool is_open(){
-
-    }
-
-    int search(){
-
-    }
-
-    int populate(){
-
-    }
-
-    int insert(){
-
-    }
-
-    int remove(){
-
-    }
-
-    int update(){
-
-    }
-
-    void display_record(){
-
-    }
-
-    void display_SS(){
-
-    }
-
-    void validate(){
-      
-    }
+    SequenceSet();
+    int create();
+    int load();
+    bool is_open();
+    int search();
+    int populate();
+    int insert();
+    int remove();
+    int update();
+    void display_record();
+    void display_SS();
+    void validate();
 
 };
+
+
+/*
+  Here we create a Block
+
+  A Block default size is 512
+*/
+struct SequenceSet::Block {
+  //data parts
+  int block_size;
+  
+  //constructors
+  Block() : block_size(512) {}   //look, a constructor
+  
+  //methods
+  int get_block_size() { 
+    return block_size; 
+  }
+
+};
+
+
+/*
+  Here we have the default constructor for the SequenceSet
+
+*/
+SequenceSet::SequenceSet(){
+
+}
+
+
+/*
+  Method: Create
+  param:
+  return:
+  purpose:
+
+*/
+int SequenceSet::create(){
+
+  return 0;
+}
+
+
+/*
+  Method: load
+  param:
+  return:
+  purpose:
+
+*/
+int SequenceSet::load(){
+
+  return 0;
+}
+
+
+/*
+  Method: is_open
+  param:
+  return:
+  purpose:
+
+*/
+bool SequenceSet::is_open(){
+
+  return false;
+}
+
+
+/*
+  Method: search
+  param:
+  return:
+  purpose:
+
+*/
+int SequenceSet::search(){
+
+  return 0;
+}
+
+
+/*
+  Method: populate
+  param:
+  return:
+  purpose:
+
+*/
+int SequenceSet::populate(){
+
+  return 0;
+}
+
+
+/*
+  Method: insert
+  param:
+  return:
+  purpose:
+
+*/
+int SequenceSet::insert(){
+
+  return 0;
+}
+
+
+/*
+  Method: remove
+  param:
+  return:
+  purpose:
+
+*/
+int SequenceSet::remove(){
+
+  return 0;
+}
+
+
+/*
+  Method: update
+  param:
+  return:
+  purpose:
+
+*/
+int SequenceSet::update(){
+
+  return 0;
+}
+
+
+/*
+  Method: display_record
+  param:
+  return:
+  purpose:
+
+*/
+void SequenceSet::display_record(){}
+
+
+/*
+  Method: display_SS
+  param:
+  return:
+  purpose:
+
+*/
+void SequenceSet::display_SS(){}
+
+
+/*
+  Method: validate
+  param:
+  return:
+  purpose:
+
+*/
+void SequenceSet::validate(){}
