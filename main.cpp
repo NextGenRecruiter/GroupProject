@@ -38,7 +38,14 @@
 /*
   Here is the main function to start the program.
 */
-int main(){
+int main(int arg_count, char** arg_values){
+
+  //show of arguments and example using them
+  std::cout << "You have entered " << arg_count << " arguments:" << "\n";
+  for (int i = 0; i < arg_count; ++i) 
+      std::cout << arg_values[i] << "\n";
+
+
   /*
     Here we declare and initialize the sequence set data.
   */

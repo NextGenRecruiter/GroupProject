@@ -17,8 +17,15 @@
 /*
     Here is the main function of the test driver.
 */
-int main(){
+int main(int arg_count, char** arg_values){
 
+    //show of arguments and example using them
+    std::cout << "You have entered " << arg_count << " arguments:" << "\n";
+    for (int i = 0; i < arg_count; ++i) 
+        std::cout << arg_values[i] << "\n";
+
+
+    //introduction
     std::cout << "This is the test program for the SequenceSet class. " << std::endl;
 
 

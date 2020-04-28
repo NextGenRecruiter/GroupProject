@@ -4,6 +4,7 @@
 */
 #include <iostream>
 #include <list>
+#include <string>
 
 /*
   This is a datatype for handling large file in and out of RAM.
@@ -33,7 +34,7 @@ class SequenceSet
   private:
     struct Block;
     // Here is a doubly linked list
-    std::list <Block> data;
+    std::list <Block> blocks;
   
   public:
     SequenceSet();
@@ -55,11 +56,27 @@ class SequenceSet
 /*
   Here we create a Block
 
-  A Block default size is 512
+  block size {default to (512B / block)} 
+
+Each active block should include the following components:
+    count of records ( > 0 )
+    pointers to preceding & succeeding active blocks
+    set of records ordered by key 
+
+Each avail block should include the following components:
+    count of records ( == 0 )
+    pointer to succeeding avail block 
+
 */
 struct SequenceSet::Block {
   //data parts
+  struct Record;
+  std::list<Record> records;
+
   int block_size;
+  int record_count;
+  int* next_block;
+  int* prev_block;
   
   //constructors
   Block() : block_size(512) {}   //look, a constructor
@@ -68,6 +85,18 @@ struct SequenceSet::Block {
   int get_block_size() { 
     return block_size; 
   }
+
+};
+
+/*
+  Here we create a Record
+
+  A Block default size is 512
+*/
+struct SequenceSet::Block::Record{
+  int fields_count;
+  std::string key;
+  std::list <std::string> fields;
 
 };
 
