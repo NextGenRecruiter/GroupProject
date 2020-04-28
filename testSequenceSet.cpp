@@ -1,5 +1,5 @@
 /*
-    Authors: Jacob Hopkins
+    Authors: Jacob Hopkins, Misky Abshir, and Tyler Willard
     Date: 4/27/2020
 
     testSequenceSet.cpp
@@ -13,7 +13,7 @@
 #include<iostream>
 #include <cstdio>
 #include "SequenceSet.h"
-
+using namespace std;
 /*
     Here is the main function of the test driver.
 */
@@ -22,7 +22,7 @@ int main(){
     
     test = SequenceSet();
     
-    std::cout << "This is the test program for the SequenceSet class. ";
-    std::getchar();
+    cout << "This is the test program for the SequenceSet class. ";
+    getchar();
     return 0;
 }

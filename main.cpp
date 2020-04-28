@@ -1,5 +1,5 @@
 /*
-  Authors: Jacob Hopkins
+  Authors: Jacob Hopkins, Misky Abshir, and Tyler Willard
   Date: 4/27/2020
   Due: 5/1/2020
   
