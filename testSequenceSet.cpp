@@ -33,12 +33,12 @@ int main(){
     /*
         Here we initialize the sequence set test.
     */
-    std::cout << "Inita" << std::endl;
+    std::cout << "Initalizing test" << std::endl;
     test = SequenceSet();
-
+    std::cout << "test initalization complete." << std::endl << std::endl;
 
     /*
-        
+
     */
     std::cout << "" << std::endl;
     
