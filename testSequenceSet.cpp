@@ -17,7 +17,7 @@
 /*
     Here is the main function of the test driver.
 */
-int main(int arg_count, char** arg_values){
+int main(int arg_count = 0, char** arg_values = {}){
 
     //show of arguments and example using them
     std::cout << "You have entered " << arg_count << " arguments:" << "\n";
