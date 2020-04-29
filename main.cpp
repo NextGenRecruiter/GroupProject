@@ -52,15 +52,15 @@ int main(int arg_count, char** arg_values){
 
 
   /*
-    Here we declare and initialize the sequence set data.
+    Here we declare and initialize the sequence set data. This will call load().
   */
-  SequenceSet data(5, 5, 5);
+  SequenceSet data( 5, 5);
 
-  std::cout << "hello world" << std::endl;
-
+  data.developer_show();
 
   //forbiden code here
   //wait for character so the screen does not disappear
+  std::cout << "Press enter...";
   getchar();
 
   //return that the program ran correctly

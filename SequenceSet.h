@@ -43,33 +43,39 @@ class SequenceSet
     int block_size;           //records per block
     int default_cap;          //where the program will fill blocks to by default
     int record_size;          //number of characters per record
+    fstream in_file;
+    fstream out_file;
     std::string in_filename;          //filename for input
     std::string out_filename;         //filename for output
-    vector<int> field_labels;  //labels of each field
-    vector<int> field_sizes;  //sizes of each field
+    vector<std::string> field_labels;  //labels of each field
+    vector<std::string> field_sizes;          //sizes of each field
+    vector<std::string> field_types;  //type for each field
 
   
   public:
     SequenceSet();
     SequenceSet(int f_count, int b_size, int r_size);
     SequenceSet(int f_count, int b_size, int r_size, int d_cap, std::string i_filename, std::string o_filename);
+    SequenceSet(int b_size, int r_size);
+    SequenceSet(int b_size, int r_size, int d_cap, std::string i_filename, std::string o_filename);
     ~SequenceSet();
-    void create();
-    void load();
-    void close();
-    bool is_open();
-    int search();
-    void populate();
-    void insert();
-    void del();
-    void update();
-    void display_record();
-    void display_field();
-    void display_file();
-    void display_SS();
-    void validate();
-    void addIndex(int primKey, Block *b);
-    void delIndex(int primKey);
+    void create();                                                           //todo
+    void load();                                                              //done
+    void close();                                                             //done
+    bool is_empty(int flag, int block = -1, int record = -1, int field = -1); //done
+    int search();                                                            //todo
+    void populate();                                                         //todo
+    void insert();                                                           //todo
+    void del();                                                              //todo
+    void update();                                                           //todo
+    void display_record();                                                   //todo
+    void display_field();                                                    //todo
+    void display_file();                                                     //todo
+    void display_SS();                                                       //todo
+    void validate();                                                         //todo
+    void addIndex(int primKey, Block *b);                                    //todo
+    void delIndex(int primKey);                                              //todo
+    void developer_show();                                                    //done
 };
 
 
