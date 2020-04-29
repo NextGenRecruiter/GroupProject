@@ -71,7 +71,7 @@ void SequenceSet::load(){
   while(count > 0){
     in_file >> line;
     std::cout << line;
-    count = count - 1
+    count = count - 1;
   }
 
 }

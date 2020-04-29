@@ -38,6 +38,7 @@
 
 //import header with the SequenceSet class
 #include "SequenceSet.h"
+
 #include <cstdio>
 
 /*
@@ -55,6 +56,8 @@ int main(std::string source_file = "us_postal_codes_formatted.txt", std::string 
     Here we declare and initialize the sequence set data.
   */
   //SequenceSet data = SequenceSet();
+
+  
   
   
   //forbiden code here
