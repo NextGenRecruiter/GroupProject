@@ -54,7 +54,7 @@ int main(int arg_count, char** arg_values){
   /*
     Here we declare and initialize the sequence set data.
   */
-  SequenceSet data = SequenceSet(5, 5, 5);
+  SequenceSet data(5, 5, 5);
 
   std::cout << "hello world" << std::endl;
 
