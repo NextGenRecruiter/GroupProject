@@ -37,7 +37,7 @@
 
 
 //import header with the SequenceSet class
-#include "SequenceSet.h"
+#include "SequenceSet.cpp"
 #include <cstdio>
 
 /*

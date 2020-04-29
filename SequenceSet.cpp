@@ -40,6 +40,17 @@ SequenceSet::SequenceSet(int f_count, int b_size, int r_size, int d_cap, std::st
   load();
 }
 
+/*
+  Here we have the first constructor for the SequenceSet
+  @param int f_count, int b_size, int r_size
+  @return SequenceSet
+  @purpose  this will initialize some of our data and open the file
+
+*/
+SequenceSet::~SequenceSet(){
+  delete(&field_count, &block_size, &record_size, &default_cap, &in_filename, &out_filename);
+}
+
 
 /*
   Method: Create
@@ -64,16 +75,15 @@ void SequenceSet::create(){
 void SequenceSet::load(){
   fstream in_file;
   std::string line;
-  int count = 10;
+  int line_count = 10;
   in_file.open(in_filename);
   if (in_file.fail()) {
     cerr << "Error opening file: " << in_filename;
     exit(1);
   }
-  while(count > 0){
-    in_file >> line;
-    std::cout << line;
-    count = count - 1;
+  while( line_count > 0 && std::getline(in_file, line) ){
+    std::cout << line << std::endl;
+    line_count = line_count - 1;
   }
   in_file.close();
 }
