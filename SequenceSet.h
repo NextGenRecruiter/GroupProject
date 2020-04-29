@@ -55,7 +55,7 @@ class SequenceSet
 
   
   public:
-    SequenceSet(std::string i_filename);
+    SequenceSet();
     SequenceSet(int b_size, int r_size, int p_key_index, int d_cap, std::string i_filename, std::string o_filename);
     ~SequenceSet();
     void create();                                                           //todo

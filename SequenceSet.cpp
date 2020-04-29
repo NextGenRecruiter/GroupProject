@@ -27,29 +27,6 @@ std::vector<std::string> split_string(std::string str, char delimiter){
   return split_str;
 }
 
-
-/*   Class Methods   */
-
-/*
-  Here we have the first constructor for the SequenceSet i think this will be deleted in the end
-  @param  int b_size, int r_size
-  @return n/a
-  @purpose  this will initialize some of our data and open the file to default
-
-*/
-SequenceSet::SequenceSet(std::string i_filename){
-  block_size = 0;
-  record_size = 0;
-  default_cap = 0.50;
-  primary_key_index = 0;
-  in_filename = i_filename;
-  out_filename = "us_postal_codes_sequence_set_file.txt";
-  first = NULL;
-  end_of_header = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
-  
-  load();
-}
-
 /*
   Here we have the constructor for the SequenceSet that takes in all the values relivant to the header and saving
   @param int b_size, int r_size, int d_cap, std::string i_filename, std::string o_filename
@@ -65,6 +42,7 @@ SequenceSet::SequenceSet(int b_size, int r_size, int p_key_index, int d_cap, std
   in_filename = i_filename;
   out_filename = o_filename;
   first = NULL;
+  end_of_header = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
   
   load();
 }
