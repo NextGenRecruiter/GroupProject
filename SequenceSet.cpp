@@ -185,7 +185,6 @@ void SequenceSet::load(){
 
   //if the file ended then tell the user and exit
   if (in_file.fail()) {
-    cerr << "Error opening file: " << in_filename;
     exit(1);
   }
 
