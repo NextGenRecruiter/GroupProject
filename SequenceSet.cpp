@@ -50,7 +50,6 @@ SequenceSet::SequenceSet(int f_count, int b_size, int r_size, int d_cap, fstream
 */
 void SequenceSet::create(){
 
-  return 0;
 }
 
 
@@ -63,7 +62,6 @@ void SequenceSet::create(){
 */
 void SequenceSet::load(){
 
-  return 0;
 }
 
 
@@ -102,7 +100,6 @@ int SequenceSet::search(){
 */
 void SequenceSet::populate(){
 
-  return 0;
 }
 
 
@@ -115,7 +112,6 @@ void SequenceSet::populate(){
 */
 void SequenceSet::insert(){
 
-  return 0;
 }
 
 
@@ -128,7 +124,6 @@ void SequenceSet::insert(){
 */
 void SequenceSet::del(){
 
-  return 0;
 }
 
 
@@ -141,7 +136,6 @@ void SequenceSet::del(){
 */
 void SequenceSet::update(){
 
-  return 0;
 }
 
 
@@ -152,7 +146,10 @@ void SequenceSet::update(){
   purpose:
 
 */
-void SequenceSet::display_record(){}
+void SequenceSet::display_record(){
+
+
+}
 
 /*
   Method: display_field
@@ -161,7 +158,9 @@ void SequenceSet::display_record(){}
   purpose:
 
 */
-void SequenceSet::display_field(){}
+void SequenceSet::display_field(){
+
+}
 
 
 /*
@@ -171,7 +170,9 @@ void SequenceSet::display_field(){}
   purpose:
 
 */
-void SequenceSet::display_file(){}
+void SequenceSet::display_file(){
+
+}
 
 
 /*
@@ -181,7 +182,9 @@ void SequenceSet::display_file(){}
   purpose:
 
 */
-void SequenceSet::display_SS(){}
+void SequenceSet::display_SS(){
+
+}
 
 
 /*
@@ -191,7 +194,9 @@ void SequenceSet::display_SS(){}
   purpose:
 
 */
-void SequenceSet::validate(){}
+void SequenceSet::validate(){
+  
+}
 
 
 /*
