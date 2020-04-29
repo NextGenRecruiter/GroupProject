@@ -27,40 +27,22 @@ std::vector<std::string> split_string(std::string str, char delimiter){
   return split_str;
 }
 
-
-/*   Class Methods   */
-
-/*
-  Here we have the first constructor for the SequenceSet i think this will be deleted in the end
-  @param  int b_size, int r_size
-  @return n/a
-  @purpose  this will initialize some of our data and open the file to default
-
-*/
-SequenceSet::SequenceSet(int b_size, int r_size){
-  block_size = b_size;
-  record_size = r_size;
-  in_filename = "us_postal_codes_formatted.txt";
-  out_filename = "us_postal_codes_sequence_set_file.txt";
-  first = NULL;
-  
-  load();
-}
-
 /*
   Here we have the constructor for the SequenceSet that takes in all the values relivant to the header and saving
   @param int b_size, int r_size, int d_cap, std::string i_filename, std::string o_filename
   @return n/a
-  @purpose  this will initialize some of our data and open the file and output file
+  @purpose  this will initialize some of our data and open the file and output file this is for designing the header in construction
 
 */
-SequenceSet::SequenceSet(int b_size, int r_size, int d_cap, std::string i_filename, std::string o_filename){
+SequenceSet::SequenceSet(int b_size, int r_size, int p_key_index, int d_cap, std::string i_filename, std::string o_filename){
   block_size = b_size;
   record_size = r_size;
   default_cap = d_cap;
+  primary_key_index = p_key_index;
   in_filename = i_filename;
   out_filename = o_filename;
   first = NULL;
+  end_of_header = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
   
   load();
 }
@@ -84,21 +66,21 @@ SequenceSet::~SequenceSet(){
   purpose: this will create the empty file with just the header and any data in the data array
 
   Your header record should include the following components:
-    -sequence set file type
-    -header record size
-    -block size {default to (512B / block)}
-    -maximum count of records per block
-        -minimum capacity: 50%
+    --sequence set file type
+    --header record size
+    --block size {default to (512B / block)}
+    --maximum count of records per block
+        --minimum capacity: 50%
         -(for simplicity, require an even number) 
-    -record size
-    -count of fields per record
-    -field info triple (tuple) {AoS or SoA}
-        -name or ID
-        -size
-        -type schema
+    --record size
+    --count of fields per record
+    --field info triple (tuple) {AoS or SoA}
+        --name or ID
+        --size
+        --type schema
             -(format to read or write) 
     -indicate field which serves as the primary key
-    -pointer to the block avail-list
+    --pointer to the block avail-list
     -pointer to the active sequence set list
     -block count
     -record count
@@ -109,24 +91,61 @@ SequenceSet::~SequenceSet(){
 
 */
 void SequenceSet::create(){
-  Block *p = first;
-
   //here i am making the header components to be at the top of the file 
-  char* file_type = "ascii";
-  char* header_record_size = "_ lines";
+  std::string file_type = "ascii";
+  std::string header_record_size = "22 lines";
   block_size = 512;
-  default_cap = 50;
   record_size = -1;
-  field_count = field_count;
+  int max_record_count = -1;
+  int f_count = field_count;
+  Block* block_avail = first;
+  Index* active_list = root;
+  int block_count = 0;
+  int record_count = 0;
+  bool stale = false;
 
-  //here is a disign desicion: SoA or AoS
+  //here is a disign desicion: SoA or AoS here structure
   struct field_tuple{
-    std::vector<std::string> labels;
-    std::vector<std::string> sizes;
-    std::vector<std::string> types;
+    std::string label;
+    std::string size;
+    std::string type;
+
+    field_tuple(std::string a,std::string b,std::string c){
+      label = a;
+      size = b;
+      type = c;
+    };
+  };
+  //here is an array of structures
+  std::vector<field_tuple> fields;
+  for (int i = 0; i < field_count; i++){
+    fields.push_back(field_tuple(field_labels[i],field_sizes[i],field_types[i]));
   }
+  
+  out_file.open(out_filename);
 
+  //write the header
+  out_file << "File Type: " << file_type << "\n";
+  out_file << "Header Size: " <<  header_record_size << "\n";
+  out_file << "Block Size: " <<  block_size << "\n";
+  out_file << "Maximum Records: " << max_record_count  << "\n";
+  out_file << "Minimum Capacity: " << default_cap  << "%\n";
+  out_file << "Record Size: " <<  record_size << "\n";
+  out_file << "Record Field Count: " << field_count  << "\n";
+  for (field_tuple f : fields){
+    out_file << f.label << '|' << f.size << '|' << f.type << "\n";
+  }
+  out_file << "Primary Key: " << field_labels[primary_key_index] << "\n";
+  out_file << "Avail Block Pointer: " <<  block_avail  << "\n";
+  out_file << "Active List: " <<  active_list << "\n";
+  out_file << "Block Count: " <<  block_count  << "\n";
+  out_file << "Record Count: " <<  record_count << "\n";
+  out_file << "Stale Flag: " <<  stale << "\n";
+  out_file << out_filename << "\n";
+  out_file << "This file is for loading blocks into a sequence set." << "\n";
+  out_file << end_of_header << "\n";
 
+  close();
 }
 
 
@@ -140,7 +159,6 @@ void SequenceSet::create(){
 void SequenceSet::load(){
   //create a local file for loading in that data
   std::string line = "";
-  std::string end_of_header = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
   in_file.open(in_filename);
 
   //if the file ended then tell the user and exit
@@ -373,6 +391,25 @@ int SequenceSet::search(int primKey){
 */
 void SequenceSet::populate(){
 
+  int record_number;          //current record being coppied
+  int block_number = -1;      //current block number
+
+  int primary_key_i;
+  std::string primary_key_tmp;
+
+  int indexPlace = -1, nodeCount = 0;
+  Block *prev;
+  Index *currentNode = new Index; //pointer to current node
+
+  in_file.open(in_filename);
+  std::string line = "";
+  while(!line.compare(end_of_header)){
+    std::getline(in_file,line);
+  }
+
+  std::cout << line;
+  
+  close();
 }
 
 
@@ -505,6 +542,8 @@ void SequenceSet::delIndex(int primKey){
   
         // if(in_file)checks the buffer record in the file 
         if (in_file) { 
+
+            int primarykey = 0;
   
             // comparing the primKey with 
             // primary key of record to be deleted 
@@ -535,7 +574,7 @@ void SequenceSet::delIndex(int primKey){
         cout << "\nrecord successfully deleted \n"; 
     else
         cout << "\nrecord not found \n"; 
-
+  close();
 }
 
 

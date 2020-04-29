@@ -1,0 +1,22 @@
+File Type: ascii
+Header Size: 22 lines
+Block Size: 512
+Maximum Records: -1
+Minimum Capacity: 50%
+Record Size: -1
+Record Field Count: 6
+Zip Code|2-6|u_integer
+Place Name|7-36|text
+State|38-39|text
+County|40-77|text
+Latitude|77-84|float
+Longitude|87-94|float
+Primary Key: Zip Code
+Avail Block Pointer: 0
+Active List: 0x3
+Block Count: 0
+Record Count: 0
+Stale Flag: 0
+us_postal_codes_sequence_set_file.txt
+This file is for loading blocks into a sequence set.
+1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
