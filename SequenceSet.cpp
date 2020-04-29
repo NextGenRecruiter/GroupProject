@@ -10,8 +10,7 @@
 //This function will take apart a string and split it by some char delimeter
 std::vector<std::string> split_string(std::string str, char delimiter){
   std::vector<std::string> split_str;
-
-  std:string word;
+  std::string word;
 
   for(char x : str){
 
@@ -198,7 +197,7 @@ void SequenceSet::load(){
     //Record the feilds and stop
     std::vector<std::string> spaceless_line = split_string(line, ' ');
     if (!spaceless_line[0].compare("Fields:")){
-      stringstream field_count_string(spaceless_line[1]);
+      std::stringstream field_count_string(spaceless_line[1]);
       field_count_string >> field_count;
       break;
     }
@@ -377,9 +376,9 @@ bool SequenceSet::is_empty(int flag, int block = -1, int record = -1, int field 
 */
 int SequenceSet::search(int primKey){
   int offset;
-  string line;
+  std::string line;
 
-  ifstream in_file;
+  std::ifstream in_file;
   in_file.open("us_postal_codes_formatted.txt");
 
   std::cout<<"Enter the primary key of the record you want to search: "<<std::endl;
@@ -389,7 +388,7 @@ int SequenceSet::search(int primKey){
   {
     while(!in_file.eof()){
       getline(in_file, line);
-      if(offset = line.find(primKey, 0) != string::npos){
+      if(offset = line.find(primKey, 0) != std::string::npos){
         std::cout<<"The record has been found " << primKey << std::endl;
       }
     }
@@ -534,11 +533,11 @@ void SequenceSet::addIndex(int primKey, Block *b){
 void SequenceSet::delIndex(int primKey){
    int flag = 0; 
   
-    ifstream in_file; 
-    in_file.open("us_postal_codes_formatted.txt", ios::in | ios::binary); 
+    std::ifstream in_file; 
+    in_file.open("us_postal_codes_formatted.txt", std::ios::in | std::ios::binary); 
   
-    ofstream out_file; 
-    out_file.open("us_postal_codes_sequence_set_file.txt", ios::out | ios::binary); 
+    std::ofstream out_file; 
+    out_file.open("us_postal_codes_sequence_set_file.txt", std::ios::out | std::ios::binary); 
   
     while (!in_file.eof()) { 
   
@@ -553,7 +552,7 @@ void SequenceSet::delIndex(int primKey){
             // primary key of record to be deleted 
             if (primKey == primarykey) { 
                 flag = 1; 
-                cout << "The deleted record is \n"; 
+                std::cout << "The deleted record is \n"; 
   
                 // display the record 
                 display_SS(); 
@@ -575,9 +574,9 @@ void SequenceSet::delIndex(int primKey){
     rename("us_postal_codes_sequence_set_file.txt", "us_postal_codes_formatted.txt"); 
   
     if (flag == 1) 
-        cout << "\nrecord successfully deleted \n"; 
+        std::cout << "\nrecord successfully deleted \n"; 
     else
-        cout << "\nrecord not found \n"; 
+        std::cout << "\nrecord not found \n"; 
 
 }
 
