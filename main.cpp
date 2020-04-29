@@ -57,6 +57,7 @@ int main(int arg_count, char** arg_values){
   SequenceSet data( 5, 5);
   
   data.create();
+  data.populate();
 
   //data.developer_show();
 

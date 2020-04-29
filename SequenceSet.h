@@ -41,8 +41,9 @@ class SequenceSet
     int field_count;          //count of fields per record
     int *field_offset;        //character offset per record
     int block_size;           //records per block
-    int default_cap;          //where the program will fill blocks to by default
+    float default_cap;          //where the program will fill blocks to by default
     int record_size;          //number of characters per record
+    int primary_key_index;
     fstream in_file;
     ofstream out_file;
     std::string in_filename;          //filename for input
@@ -50,14 +51,12 @@ class SequenceSet
     vector<std::string> field_labels;  //labels of each field
     vector<std::string> field_sizes;          //sizes of each field
     vector<std::string> field_types;  //type for each field
+    std::string end_of_header;
 
   
   public:
     SequenceSet();
-    SequenceSet(int f_count, int b_size, int r_size);
-    SequenceSet(int f_count, int b_size, int r_size, int d_cap, std::string i_filename, std::string o_filename);
-    SequenceSet(int b_size, int r_size);
-    SequenceSet(int b_size, int r_size, int d_cap, std::string i_filename, std::string o_filename);
+    SequenceSet(int b_size, int r_size, int p_key_index, int d_cap, std::string i_filename, std::string o_filename);
     ~SequenceSet();
     void create();                                                           //todo
     void load();                                                              //done
