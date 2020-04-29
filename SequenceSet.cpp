@@ -74,17 +74,21 @@ void SequenceSet::create(){
 */
 void SequenceSet::load(){
   fstream in_file;
-  std::string line;
-  int line_count = 10;
+  std::string line = "";
+  std::string end_of_header = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
   in_file.open(in_filename);
+
   if (in_file.fail()) {
     cerr << "Error opening file: " << in_filename;
     exit(1);
   }
-  while( line_count > 0 && std::getline(in_file, line) ){
+
+  while(std::getline(in_file, line)){
+    if(!end_of_header.compare(line))
+      break;
     std::cout << line << std::endl;
-    line_count = line_count - 1;
   }
+
   in_file.close();
 }
 
