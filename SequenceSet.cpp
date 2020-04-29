@@ -37,8 +37,8 @@ std::vector<std::string> split_string(std::string str, char delimiter){
 
 */
 SequenceSet::SequenceSet(){
-  block_size = 0;
-  record_size = 0;
+  block_size = 8;  //records per block
+  record_size = 1; //characters per record
   in_filename = "us_postal_codes_formatted.txt";
   out_filename = "us_postal_codes_sequence_set_file.txt";
   primary_key_index = 0;
@@ -408,17 +408,22 @@ int SequenceSet::search(int primKey){
   param:
   return:
   purpose:
+  we count blocks and records.
+  we open the file and skip the header and loop the rest
+  we create an empty node for a btree
 
 */
 void SequenceSet::populate(){
   int record_number;          //current record being coppied
-  int block_number = -1;      //current block number  int primary_key_i;
+  int block_count = -1;      //current block number  int primary_key_i;
 
+  int primary_key_int;
   std::string primary_key_tmp;
-  int indexPlace = -1, nodeCount = 0;
+  int index_place = -1, node_count = 0;
+
 
   Block *prev;
-  Index *currentNode = new Index; //pointer to current node  in_file.open(in_filename);
+  Index *current_node = new Index; //pointer to current node  in_file.open(in_filename);
   
   std::string line = "";
 
@@ -426,12 +431,68 @@ void SequenceSet::populate(){
 
   while(std::getline(in_file,line)){
     if(!line.compare(end_of_header)){
-      std::getline(in_file,line);
       break;
     }
   }
-  std::cout << line << "\n";
+
+  while(!in_file.eof()){
+    record_number = 0;
+
+    //make btree node as neccessary
+    if(++index_place%3 == 0){ // make a new node every 3 primary keys
+      if(node_count++ > 0){ //first node skips this
+        current_node->nextNode = new Index; //move onto next node
+        current_node = current_node->nextNode; // remember where we are
+      }else //node count is 0
+        root = current_node; //if first then its the root
+      
+      for (int i = 0; i < 4; i++){ //fill the children of the b tree
+        current_node -> key[i] = -1;
+        current_node -> block[i] = NULL;
+        current_node -> block[i] = NULL;
+      }
+      current_node -> nextNode = NULL;
+      current_node -> parent = NULL;
+    }
+
+    //make next (or first) Block:
+    Block *b = new Block;               //get the empty block
+    b -> previous = NULL;               //prev is null
+    b -> next = NULL;                   //next too
+    b -> data.resize(block_size);       //resize the array to be the length of the block sizes
+    for (int i = 0; i < block_size; ++i){// for each block in that array
+      b -> data[i].resize(record_size);//resize it for the length of a record   //ERROR
+    } 
+    if(++block_count != 0){             //increase block count each iteration, and if it isnt 0 like the first iteration then set the first in the sequence set to be b
+      b -> previous = prev;             //if not then send it to the next node.
+      prev -> next = b;
+    }
+    else
+      first = b;
+    prev = b;
+
+
+    //while block isn't 75% full, keep filling:
+    while(record_number < (block_size * default_cap) && !in_file.eof()){
+      in_file.getline(&prev->data[record_number++][0], record_size+1);
+    }
+    //get the primary key and add it to the tree
+    primary_key_tmp = &prev->data[record_number-1][0];
+    primary_key_tmp.resize(6);
+    primary_key_int = atoi(primary_key_tmp.c_str());
+
+    current_node -> key[index_place%3] = primary_key_int;
+    current_node -> block[index_place%3] = prev;
+
+    prev -> records_count = record_number;
+
+  }
+  prev -> previous -> next = NULL;
+  delete prev;
   
+  //Build the B+ tree up from the "linked list" structure
+
+
   close();
 }
 
