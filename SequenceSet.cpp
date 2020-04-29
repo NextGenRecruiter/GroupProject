@@ -61,10 +61,17 @@ void SequenceSet::create(){
   here we load blocks from the sequence set file into ram
 */
 void SequenceSet::load(){
-  file.open(i);
-  if (file.fail()) {
-    cerr << "Error opening file.";
+  std::string line;
+  int count = 10;
+  in_file.open(in_filename);
+  if (in_file.fail()) {
+    cerr << "Error opening file: " << in_filename;
     exit(1);
+  }
+  while(count > 0){
+    in_file >> line;
+    std::cout << line;
+    count = count - 1
   }
 
 }
