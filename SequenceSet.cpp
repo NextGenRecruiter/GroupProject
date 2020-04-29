@@ -74,7 +74,7 @@ void SequenceSet::load(){
     std::cout << line;
     count = count - 1;
   }
-  in_file.close()
+  in_file.close();
 }
 
 
