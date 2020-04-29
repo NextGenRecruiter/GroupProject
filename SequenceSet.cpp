@@ -86,6 +86,10 @@ void SequenceSet::load(){
   while(std::getline(in_file, line)){
     if(!end_of_header.compare(line))
       break;
+    
+    //https://www.geeksforgeeks.org/split-a-sentence-into-words-in-cpp/
+    //cut it into words. look for fields
+    //record the feilds and pull each line after and chop it into vectors field_labels and field_sizes
     std::cout << line << std::endl;
   }
 

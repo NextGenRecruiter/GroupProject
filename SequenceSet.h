@@ -45,6 +45,7 @@ class SequenceSet
     int record_size;          //number of characters per record
     std::string in_filename;          //filename for input
     std::string out_filename;         //filename for output
+    vector<int> field_labels;  //labels of each field
     vector<int> field_sizes;  //sizes of each field
 
   
