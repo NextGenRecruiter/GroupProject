@@ -27,13 +27,13 @@ SequenceSet::SequenceSet(int f_count, int b_size, int r_size){
   @purpose  this will initialize some of our data and open the file
 
 */
-SequenceSet::SequenceSet(int f_count, int b_size, int r_size, int d_cap, fstream i_file, fstream o_file){
+SequenceSet::SequenceSet(int f_count, int b_size, int r_size, int d_cap, std::string i_filename, std::string o_filename){
   field_count = f_count;
   block_size = b_size;
   record_size = r_size;
   default_cap = d_cap;
-  in_file = i_file;
-  out_file = o_file;
+  in_filename = i_filename;
+  out_filename = o_filename;
   first = NULL;
   
   load();
@@ -195,7 +195,7 @@ void SequenceSet::display_SS(){
 
 */
 void SequenceSet::validate(){
-  
+
 }
 
 

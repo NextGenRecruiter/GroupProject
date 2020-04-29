@@ -43,14 +43,14 @@ class SequenceSet
     int block_size;           //records per block
     int default_cap;          //where the program will fill blocks to by default
     int record_size;          //number of characters per record
-    fstream in_file;          //file to read from
-    fstream out_file;         //file for storing
+    std::string in_filename;          //file to read from
+    std::string out_filename;         //file for storing
     vector<int> field_sizes;  //sizes of each field
 
   
   public:
     SequenceSet(int f_count, int b_size, int r_size);
-    SequenceSet(int f_count, int b_size, int r_size, int d_cap, fstream i_file, fstream o_file);
+    SequenceSet(int f_count, int b_size, int r_size, int d_cap, std::string i_filename, std::string o_filename);
     ~SequenceSet();
     void create();
     void load();
