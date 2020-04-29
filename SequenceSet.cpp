@@ -3,13 +3,6 @@
 #include <fstream>
 #include "SequenceSet.h"
 
-int SequenceSet::create(){
-
-
-}
-
-
-
 /*
   Here we create a Block
 
