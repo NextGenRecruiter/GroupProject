@@ -336,8 +336,30 @@ bool SequenceSet::is_empty(int flag, int block = -1, int record = -1, int field 
   purpose:
 
 */
-int SequenceSet::search(){
+int SequenceSet::search(int primKey){
+  int offset;
+  string line;
 
+  ifstream in_file;
+  in_file.open("us_postal_codes_formatted.txt");
+
+  std::cout<<"Enter the primary key of the record you want to search: "<<std::endl;
+  std::cin>>primKey;
+
+  if(in_file.is_open())
+  {
+    while(!in_file.eof()){
+      getline(in_file, line);
+      if(offset = line.find(primKey, 0) != string::npos){
+        std::cout<<"The record has been found " << primKey << std::endl;
+      }
+    }
+    in_file.close();
+  }else
+  {
+    std::cout<<"Record not found"<<std::endl;
+  }
+  
   return 0;
 }
 
@@ -474,8 +496,8 @@ void SequenceSet::delIndex(int primKey){
     ifstream in_file; 
     in_file.open("us_postal_codes_formatted.txt", ios::in | ios::binary); 
   
-    ofstream ofs; 
-    ofs.open("temp_us_postal_codes_formatted.txt", ios::out | ios::binary); 
+    ofstream out_file; 
+    out_file.open("us_postal_codes_sequence_set_file.txt", ios::out | ios::binary); 
   
     while (!in_file.eof()) { 
   
@@ -494,20 +516,20 @@ void SequenceSet::delIndex(int primKey){
                 display_SS(); 
             } 
             else { 
-                // copy the record of "us_postal_codes_formatted.txt" file to "temp_us_postal_codes_formatted.txt" file 
-                ofs.write((char*)this, sizeof(SequenceSet)); 
+                // copy the record of "us_postal_codes_formatted.txt" file to "us_postal_codes_sequence_set_file.txt" file 
+                out_file.write((char*)this, sizeof(SequenceSet)); 
             } 
         } 
     } 
   
-    ofs.close(); 
+    out_file.close(); 
     in_file.close(); 
   
     // delete the old file 
     remove("us_postal_codes_formatted.txt"); 
   
     // rename new file to the older file 
-    rename("temp_us_postal_codes_formatted.txt", "us_postal_codes_formatted.txt"); 
+    rename("us_postal_codes_sequence_set_file.txt", "us_postal_codes_formatted.txt"); 
   
     if (flag == 1) 
         cout << "\nrecord successfully deleted \n"; 

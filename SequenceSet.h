@@ -63,7 +63,7 @@ class SequenceSet
     void load();                                                              //done
     void close();                                                             //done
     bool is_empty(int flag, int block = -1, int record = -1, int field = -1); //done
-    int search();                                                            //todo
+    int search(int primKey);                                                            //todo
     void populate();                                                         //todo
     void insert();                                                           //todo
     void del();                                                              //todo
