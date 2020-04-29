@@ -61,6 +61,11 @@ void SequenceSet::create(){
   here we load blocks from the sequence set file into ram
 */
 void SequenceSet::load(){
+  file.open(i);
+  if (file.fail()) {
+    cerr << "Error opening file.";
+    exit(1);
+  }
 
 }
 
