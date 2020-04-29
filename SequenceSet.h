@@ -49,8 +49,8 @@ class SequenceSet
 
   
   public:
-    SequenceSet(int field_count, int block_size, int records_size);
-    SequenceSet(int field_count, int block_size, int records_size, int default_cap, fstream in_file, fstream out_file);
+    SequenceSet(int f_count, int b_size, int r_size);
+    SequenceSet(int f_count, int b_size, int r_size, int d_cap, fstream i_file, fstream o_file);
     ~SequenceSet();
     void create();
     void load();

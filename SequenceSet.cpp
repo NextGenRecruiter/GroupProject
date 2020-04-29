@@ -3,20 +3,40 @@
 #include <fstream>
 #include "SequenceSet.h"
 
+
 /*
-  Here we have the default constructor for the SequenceSet
+  Here we have the first constructor for the SequenceSet
+  @param int f_count, int b_size, int r_size
+  @return SequenceSet
+  @purpose  this will initialize some of our data and open the file
 
 */
-SequenceSet::SequenceSet(){
-
+SequenceSet::SequenceSet(int f_count, int b_size, int r_size){
+  field_count = f_count;
+  block_size = b_size;
+  record_size = r_size;
+  first = NULL;
+  
+  load();
 }
 
 /*
-  Here we have the default destructor for the SequenceSet
+  Here we have the second constructor for the SequenceSet
+  @param int f_count, int b_size, int r_size
+  @return SequenceSet
+  @purpose  this will initialize some of our data and open the file
 
 */
-SequenceSet::~SequenceSet(){
-  delete &blocks;
+SequenceSet::SequenceSet(int f_count, int b_size, int r_size, int d_cap, fstream i_file, fstream o_file){
+  field_count = f_count;
+  block_size = b_size;
+  record_size = r_size;
+  default_cap = d_cap;
+  in_file = i_file;
+  out_file = o_file;
+  first = NULL;
+  
+  load();
 }
 
 
@@ -28,7 +48,7 @@ SequenceSet::~SequenceSet(){
   here we take the data file and create the sequence set file
 
 */
-int SequenceSet::create(){
+void SequenceSet::create(){
 
   return 0;
 }
@@ -41,7 +61,7 @@ int SequenceSet::create(){
   purpose:
   here we load blocks from the sequence set file into ram
 */
-int SequenceSet::load(){
+void SequenceSet::load(){
 
   return 0;
 }
@@ -80,7 +100,7 @@ int SequenceSet::search(){
   purpose:
 
 */
-int SequenceSet::populate(){
+void SequenceSet::populate(){
 
   return 0;
 }
@@ -93,7 +113,7 @@ int SequenceSet::populate(){
   purpose:
 
 */
-int SequenceSet::insert(){
+void SequenceSet::insert(){
 
   return 0;
 }
@@ -106,7 +126,7 @@ int SequenceSet::insert(){
   purpose:
 
 */
-int SequenceSet::remove(){
+void SequenceSet::del(){
 
   return 0;
 }
@@ -119,7 +139,7 @@ int SequenceSet::remove(){
   purpose:
 
 */
-int SequenceSet::update(){
+void SequenceSet::update(){
 
   return 0;
 }
@@ -133,6 +153,25 @@ int SequenceSet::update(){
 
 */
 void SequenceSet::display_record(){}
+
+/*
+  Method: display_field
+  param:
+  return:
+  purpose:
+
+*/
+void SequenceSet::display_field(){}
+
+
+/*
+  Method: display_file
+  param:
+  return:
+  purpose:
+
+*/
+void SequenceSet::display_file(){}
 
 
 /*
@@ -153,3 +192,27 @@ void SequenceSet::display_SS(){}
 
 */
 void SequenceSet::validate(){}
+
+
+/*
+  Method: addIndex
+  param:
+  return:
+  purpose:
+
+*/
+void SequenceSet::addIndex(int primKey, Block *b){
+
+}
+
+
+/*
+  Method: delIndex
+  param:
+  return:
+  purpose:
+
+*/
+void SequenceSet::delIndex(int primKey){
+
+}

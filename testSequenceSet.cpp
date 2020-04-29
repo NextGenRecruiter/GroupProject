@@ -11,7 +11,7 @@
 
     In video 4:
     14:20
-    
+
 */
 
 #include<iostream>
@@ -37,7 +37,7 @@ int main(int arg_count = 0, char** arg_values = {}){
         Here we declare a SequenceSet named test.
     */
     std::cout << "Declaring SequenceSet: test" << std::endl;
-    SequenceSet test;
+    //SequenceSet test;
     std::cout << "Declaring SequenceSet complete." << std::endl << std::endl;
     
 
@@ -45,7 +45,7 @@ int main(int arg_count = 0, char** arg_values = {}){
         Here we initialize the sequence set test.
     */
     std::cout << "Initalizing test" << std::endl;
-    test = SequenceSet();
+    //test = SequenceSet();
     std::cout << "test initalization complete." << std::endl << std::endl;
 
     /*

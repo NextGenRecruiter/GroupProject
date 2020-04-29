@@ -54,7 +54,7 @@ int main(std::string source_file = "infile.txt", std::string destination_file = 
   /*
     Here we declare and initialize the sequence set data.
   */
-  SequenceSet data = SequenceSet();
+  //SequenceSet data = SequenceSet();
   
   
   //forbiden code here
