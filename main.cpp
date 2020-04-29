@@ -54,10 +54,9 @@ int main(int arg_count, char** arg_values){
   /*
     Here we declare and initialize the sequence set data. This will call load().
   */
-  SequenceSet data = SequenceSet("us_postal_codes_formated.txt");
+  SequenceSet data( 5, 5);
   
   data.create();
-  data.populate();
 
   //data.developer_show();
 
