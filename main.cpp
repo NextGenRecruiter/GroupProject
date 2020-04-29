@@ -57,7 +57,7 @@ int main(std::string source_file = "us_postal_codes_formatted.txt", std::string 
   */
   //SequenceSet data = SequenceSet();
 
-  
+  std::cout << "hello world" << std::endl;
   
   
   //forbiden code here
