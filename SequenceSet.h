@@ -35,6 +35,8 @@ class SequenceSet
     struct Block;
     // Here is a doubly linked list
     std::list <Block> blocks;
+    Block* block_head;
+    Block* current_block;
   
   public:
     SequenceSet();

@@ -66,8 +66,8 @@ struct SequenceSet::Block::Record::Field{
 SequenceSet::SequenceSet(){
     //The pointers poiting to the head and current 
     //block are pointing to nothing
-    blockHead = NULL;
-    currentBlock = NULL;
+    block_head = NULL;
+    current_block = NULL;
 
 }
 
@@ -92,10 +92,10 @@ int SequenceSet::create(){
     ofstream index;
 
     index.open("US-Postal-Codes");
-    current = blockHead;
+    current = block_head;
     do{
 
-    }
+    }while();
   return 0;
 }
 
