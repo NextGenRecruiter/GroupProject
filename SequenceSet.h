@@ -3,9 +3,11 @@
   Date: 4/27/2020
 */
 #include <iostream>
-#include <list>
 #include <string>
+#include <iterator>
+#include <vector>
 using namespace std;
+
 /*
   This is a datatype for handling large file in and out of RAM.
   
@@ -32,25 +34,69 @@ using namespace std;
 class SequenceSet
 {
   private:
-    struct Block;
-    // Here is a doubly linked list
-    std::list <Block> blocks;
-    Block* block_head;
-    Block* current_block;
+    struct Block;             //see below
+    struct Index;
+    Block *first;
+    Index *root;
+    int field_count;          //count of fields per record
+    int *field_offset;        //character offset per record
+    int block_size;           //records per block
+    int default_cap;          //where the program will fill blocks to by default
+    int record_size;          //number of characters per record
+    fstream in_file;          //file to read from
+    fstream out_file;         //file for storing
+    vector<int> field_sizes;  //sizes of each field
+
   
   public:
-    SequenceSet();
+    SequenceSet(int field_count, int block_size, int records_size);
+    SequenceSet(int field_count, int block_size, int records_size, int default_cap, fstream in_file, fstream out_file);
     ~SequenceSet();
-    int create();
-    int load();
+    void create();
+    void load();
+    void close();
     bool is_open();
     int search();
-    int populate();
-    int insert();
-    int remove();
-    int update();
+    void populate();
+    void insert();
+    void del();
+    void update();
     void display_record();
+    void display_field();
+    void display_file();
     void display_SS();
     void validate();
+    void addIndex(int primKey, Block *b);
+    void delIndex(int primKey)
+};
 
+
+
+/*
+  Here we create a Block
+
+  block size {default to (512B / block)} 
+
+Each active block should include the following components:
+    count of records ( > 0 )
+    pointers to preceding & succeeding active blocks
+    set of records ordered by key 
+
+Each avail block should include the following components:
+    count of records ( == 0 )
+    pointer to succeeding avail block 
+
+*/
+struct SequenceSet::Block {
+  Block *next, *previous;
+  int records_count;
+
+  std::vector<  std::vector<char> > data; //2 dimensional vector holding all data
+};
+
+
+struct SequenceSet::Index {
+  int key[4];
+  Block *block[4];
+  Index *subTree[4], *nextNode, *parent;
 };
