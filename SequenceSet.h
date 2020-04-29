@@ -50,6 +50,7 @@ class SequenceSet
 
   
   public:
+    SequenceSet();
     SequenceSet(int f_count, int b_size, int r_size);
     SequenceSet(int f_count, int b_size, int r_size, int d_cap, std::string i_filename, std::string o_filename);
     ~SequenceSet();
