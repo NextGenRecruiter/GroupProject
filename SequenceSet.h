@@ -44,7 +44,7 @@ class SequenceSet
     int default_cap;          //where the program will fill blocks to by default
     int record_size;          //number of characters per record
     fstream in_file;
-    fstream out_file;
+    ofstream out_file;
     std::string in_filename;          //filename for input
     std::string out_filename;         //filename for output
     vector<std::string> field_labels;  //labels of each field
@@ -62,7 +62,7 @@ class SequenceSet
     void create();                                                           //todo
     void load();                                                              //done
     void close();                                                             //done
-    bool is_empty(int flag, int block = -1, int record = -1, int field = -1); //done
+    bool is_empty(int flag, int block, int record, int field); //done
     int search(int primKey);                                                            //todo
     void populate();                                                         //todo
     void insert();                                                           //todo
