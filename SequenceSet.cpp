@@ -37,12 +37,12 @@ std::vector<std::string> split_string(std::string str, char delimiter){
   @purpose  this will initialize some of our data and open the file to default
 
 */
-SequenceSet::SequenceSet(){
+SequenceSet::SequenceSet(std::string i_filename){
   block_size = 0;
   record_size = 0;
   default_cap = 0.50;
   primary_key_index = 0;
-  in_filename = "us_postal_codes_formatted.txt";
+  in_filename = i_filename;
   out_filename = "us_postal_codes_sequence_set_file.txt";
   first = NULL;
   end_of_header = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
