@@ -94,7 +94,9 @@ struct SequenceSet::Block {
   std::vector<  std::vector<char> > data; //2 dimensional vector holding all data
 };
 
-
+/*
+  This is an index
+*/
 struct SequenceSet::Index {
   int key[4];
   Block *block[4];
