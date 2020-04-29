@@ -6,7 +6,6 @@
 #include <string>
 #include <iterator>
 #include <vector>
-using namespace std;
 
 /*
   This is a datatype for handling large file in and out of RAM.
@@ -43,13 +42,13 @@ class SequenceSet
     int block_size;           //records per block
     int default_cap;          //where the program will fill blocks to by default
     int record_size;          //number of characters per record
-    fstream in_file;
-    fstream out_file;
+    std::fstream in_file;
+    std::ofstream out_file;
     std::string in_filename;          //filename for input
     std::string out_filename;         //filename for output
-    vector<std::string> field_labels;  //labels of each field
-    vector<std::string> field_sizes;          //sizes of each field
-    vector<std::string> field_types;  //type for each field
+    std::vector<std::string> field_labels;  //labels of each field
+    std::vector<std::string> field_sizes;          //sizes of each field
+    std::vector<std::string> field_types;  //type for each field
 
   
   public:
@@ -62,7 +61,7 @@ class SequenceSet
     void create();                                                           //todo
     void load();                                                              //done
     void close();                                                             //done
-    bool is_empty(int flag, int block = -1, int record = -1, int field = -1); //done
+    bool is_empty(int flag, int block, int record, int field); //done
     int search(int primKey);                                                            //todo
     void populate();                                                         //todo
     void insert();                                                           //todo
