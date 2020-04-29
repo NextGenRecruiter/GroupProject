@@ -46,9 +46,9 @@
 int main(int arg_count, char** arg_values){
 
   //show of arguments and example using them
-  std::cout << "You have entered " << arg_count << " arguments:" << "\n";
-  for (int i = 0; i < arg_count; ++i) 
-      std::cout << arg_values[i] << "\n";
+  //std::cout << "You have entered " << arg_count << " arguments:" << "\n";
+  //for (int i = 0; i < arg_count; ++i) 
+  //    std::cout << arg_values[i] << "\n";
 
 
   /*
@@ -57,8 +57,8 @@ int main(int arg_count, char** arg_values){
   SequenceSet data;
   
   data.create();
-
-  data.developer_show();
+  data.populate();
+  //data.developer_show();
 
   //forbiden code here
   //wait for character so the screen does not disappear

@@ -43,6 +43,7 @@ SequenceSet::SequenceSet(){
   out_filename = "us_postal_codes_sequence_set_file.txt";
   primary_key_index = 0;
   first = NULL;
+  end_of_header = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
   
   load();
 }
@@ -63,6 +64,7 @@ SequenceSet::SequenceSet(int b_size, int r_size, int d_cap, std::string i_filena
   out_filename = o_filename;
   primary_key_index = 0;
   first = NULL;
+  end_of_header = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
   
   load();
 }
@@ -111,8 +113,6 @@ SequenceSet::~SequenceSet(){
 
 */
 void SequenceSet::create(){
-
-  std::string end_of_header = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
   //here i am making the header components to be at the top of the file 
   std::string file_type = "ascii";
   std::string header_record_size = "22 lines";
@@ -181,7 +181,6 @@ void SequenceSet::create(){
 void SequenceSet::load(){
   //create a local file for loading in that data
   std::string line = "";
-  std::string end_of_header = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
   in_file.open(in_filename);
 
   //if the file ended then tell the user and exit
@@ -412,9 +411,28 @@ int SequenceSet::search(int primKey){
 
 */
 void SequenceSet::populate(){
+  int record_number;          //current record being coppied
+  int block_number = -1;      //current block number  int primary_key_i;
 
+  std::string primary_key_tmp;
+  int indexPlace = -1, nodeCount = 0;
+
+  Block *prev;
+  Index *currentNode = new Index; //pointer to current node  in_file.open(in_filename);
   
+  std::string line = "";
 
+  in_file.open(in_filename);
+
+  while(std::getline(in_file,line)){
+    if(!line.compare(end_of_header)){
+      std::getline(in_file,line);
+      break;
+    }
+  }
+  std::cout << line << "\n";
+  
+  close();
 }
 
 
