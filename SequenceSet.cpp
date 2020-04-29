@@ -1,7 +1,9 @@
-#include<iostream>
+#include <iostream>
 #include <cstdio>
 #include <fstream>
 #include "SequenceSet.h"
+#include <string>
+#include <sstream> 
 
 
 /*
@@ -64,6 +66,27 @@ void SequenceSet::create(){
 
 }
 
+//This function will take apart a string and split it by some char delimeter
+std::vector<std::string> split_string(std::string str, char delimiter){
+  std::vector<std::string> split_str;
+
+  std:string word;
+
+  for(char x : str){
+
+    if (x == delimiter){
+      split_str.push_back(word);
+      word = ""; 
+    }else{ 
+      word = word + x; 
+    }
+
+  }
+  split_str.push_back(word);
+  return split_str;
+}
+
+
 
 /*
   Method: load
@@ -73,23 +96,31 @@ void SequenceSet::create(){
   here we load blocks from the sequence set file into ram
 */
 void SequenceSet::load(){
-  fstream in_file;
+  //create a local file for loading in that data
   std::string line = "";
   std::string end_of_header = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
   in_file.open(in_filename);
 
+  //if the file ended then tell the user and exit
   if (in_file.fail()) {
     cerr << "Error opening file: " << in_filename;
     exit(1);
   }
 
+  //go through each line of the file
   while(std::getline(in_file, line)){
+    //if we find the end of header tag then break
     if(!end_of_header.compare(line))
       break;
     
-    //https://www.geeksforgeeks.org/split-a-sentence-into-words-in-cpp/
     //cut it into words. look for fields
     //record the feilds and pull each line after and chop it into vectors field_labels and field_sizes
+    std::vector<std::string> spaceless_line = split_string(line, ' ');
+    if (spaceless_line[0].compare("Fields:")){
+      stringstream field_count_string(spaceless_line[1]);
+      field_count_string >> field_count;
+      std::cout << field_count << " got it!" << std::endl;
+    }
     std::cout << line << std::endl;
   }
 

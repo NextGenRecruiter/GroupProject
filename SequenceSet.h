@@ -43,6 +43,7 @@ class SequenceSet
     int block_size;           //records per block
     int default_cap;          //where the program will fill blocks to by default
     int record_size;          //number of characters per record
+    fstream in_file;
     std::string in_filename;          //filename for input
     std::string out_filename;         //filename for output
     vector<int> field_labels;  //labels of each field
