@@ -42,6 +42,7 @@ class SequenceSet
     int block_size;           //records per block
     int default_cap;          //where the program will fill blocks to by default
     int record_size;          //number of characters per record
+    int primary_key_index;
     std::fstream in_file;
     std::ofstream out_file;
     std::string in_filename;          //filename for input
@@ -53,9 +54,6 @@ class SequenceSet
   
   public:
     SequenceSet();
-    SequenceSet(int f_count, int b_size, int r_size);
-    SequenceSet(int f_count, int b_size, int r_size, int d_cap, std::string i_filename, std::string o_filename);
-    SequenceSet(int b_size, int r_size);
     SequenceSet(int b_size, int r_size, int d_cap, std::string i_filename, std::string o_filename);
     ~SequenceSet();
     void create();                                                           //todo

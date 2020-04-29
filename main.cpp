@@ -54,11 +54,11 @@ int main(int arg_count, char** arg_values){
   /*
     Here we declare and initialize the sequence set data. This will call load().
   */
-  SequenceSet data( 5, 5);
+  SequenceSet data;
   
   data.create();
 
-  //data.developer_show();
+  data.developer_show();
 
   //forbiden code here
   //wait for character so the screen does not disappear

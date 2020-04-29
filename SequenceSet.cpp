@@ -36,11 +36,12 @@ std::vector<std::string> split_string(std::string str, char delimiter){
   @purpose  this will initialize some of our data and open the file to default
 
 */
-SequenceSet::SequenceSet(int b_size, int r_size){
-  block_size = b_size;
-  record_size = r_size;
+SequenceSet::SequenceSet(){
+  block_size = 0;
+  record_size = 0;
   in_filename = "us_postal_codes_formatted.txt";
   out_filename = "us_postal_codes_sequence_set_file.txt";
+  primary_key_index = 0;
   first = NULL;
   
   load();
@@ -50,7 +51,8 @@ SequenceSet::SequenceSet(int b_size, int r_size){
   Here we have the constructor for the SequenceSet that takes in all the values relivant to the header and saving
   @param int b_size, int r_size, int d_cap, std::string i_filename, std::string o_filename
   @return n/a
-  @purpose  this will initialize some of our data and open the file and output file
+  @purpose  this will initialize some of our data and open the file and output file 
+  this is the constructor for the header
 
 */
 SequenceSet::SequenceSet(int b_size, int r_size, int d_cap, std::string i_filename, std::string o_filename){
@@ -59,6 +61,7 @@ SequenceSet::SequenceSet(int b_size, int r_size, int d_cap, std::string i_filena
   default_cap = d_cap;
   in_filename = i_filename;
   out_filename = o_filename;
+  primary_key_index = 0;
   first = NULL;
   
   load();
@@ -114,7 +117,6 @@ void SequenceSet::create(){
   std::string file_type = "ascii";
   std::string header_record_size = "22 lines";
   block_size = 512;
-  default_cap = 50;
   record_size = -1;
   int max_record_count = -1;
   int f_count = field_count;
