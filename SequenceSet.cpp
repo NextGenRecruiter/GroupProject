@@ -61,6 +61,7 @@ void SequenceSet::create(){
   here we load blocks from the sequence set file into ram
 */
 void SequenceSet::load(){
+  fstream in_file;
   std::string line;
   int count = 10;
   in_file.open(in_filename);
@@ -73,7 +74,7 @@ void SequenceSet::load(){
     std::cout << line;
     count = count - 1;
   }
-
+  in_file.close()
 }
 
 
