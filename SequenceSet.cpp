@@ -374,7 +374,7 @@ void SequenceSet::insert(){
 
 */
 void SequenceSet::del(){
-
+ 
 }
 
 
@@ -398,7 +398,6 @@ void SequenceSet::update(){
 
 */
 void SequenceSet::display_record(){
-
 
 }
 
@@ -470,6 +469,50 @@ void SequenceSet::addIndex(int primKey, Block *b){
 
 */
 void SequenceSet::delIndex(int primKey){
+   int flag = 0; 
+  
+    ifstream in_file; 
+    in_file.open("us_postal_codes_formatted.txt", ios::in | ios::binary); 
+  
+    ofstream ofs; 
+    ofs.open("temp_us_postal_codes_formatted.txt", ios::out | ios::binary); 
+  
+    while (!in_file.eof()) { 
+  
+        in_file.read((char*)this, sizeof(SequenceSet)); 
+  
+        // if(in_file)checks the buffer record in the file 
+        if (in_file) { 
+  
+            // comparing the primKey with 
+            // primary key of record to be deleted 
+            if (primKey == primarykey) { 
+                flag = 1; 
+                cout << "The deleted record is \n"; 
+  
+                // display the record 
+                display_SS(); 
+            } 
+            else { 
+                // copy the record of "us_postal_codes_formatted.txt" file to "temp_us_postal_codes_formatted.txt" file 
+                ofs.write((char*)this, sizeof(SequenceSet)); 
+            } 
+        } 
+    } 
+  
+    ofs.close(); 
+    in_file.close(); 
+  
+    // delete the old file 
+    remove("us_postal_codes_formatted.txt"); 
+  
+    // rename new file to the older file 
+    rename("temp_us_postal_codes_formatted.txt", "us_postal_codes_formatted.txt"); 
+  
+    if (flag == 1) 
+        cout << "\nrecord successfully deleted \n"; 
+    else
+        cout << "\nrecord not found \n"; 
 
 }
 
