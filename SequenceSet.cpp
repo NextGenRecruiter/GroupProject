@@ -107,6 +107,7 @@ void SequenceSet::load(){
     exit(1);
   }
 
+  bool field_count_found = false;
   //go through each line of the file
   while(std::getline(in_file, line)){
     //if we find the end of header tag then break
@@ -116,12 +117,14 @@ void SequenceSet::load(){
     //cut it into words. look for fields
     //record the feilds and pull each line after and chop it into vectors field_labels and field_sizes
     std::vector<std::string> spaceless_line = split_string(line, ' ');
-    if (spaceless_line[0].compare("Fields:")){
+    if (spaceless_line[1].compare("Fields:") && !field_count_found){
+      field_count_found = true;
+      std::cout << spaceless_line[0] << std::endl;
       stringstream field_count_string(spaceless_line[1]);
       field_count_string >> field_count;
-      std::cout << field_count << " got it!" << std::endl;
+      //std::cout << field_count << " got it!" << std::endl;
     }
-    std::cout << line << std::endl;
+    //std::cout << line << std::endl;
   }
 
   in_file.close();
