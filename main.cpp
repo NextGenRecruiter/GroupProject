@@ -43,7 +43,7 @@
 /*
   Here is the main function to start the program.
 */
-int main(std::string source_file = "us_postal_codes_formatted.txt", std::string destination_file = "outfile.txt", int arg_count = 0, char** arg_values = {}){
+int main(int arg_count, char** arg_values){
 
   //show of arguments and example using them
   std::cout << "You have entered " << arg_count << " arguments:" << "\n";
