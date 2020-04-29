@@ -15,7 +15,7 @@ SequenceSet::SequenceSet(int f_count, int b_size, int r_size){
   field_count = f_count;
   block_size = b_size;
   record_size = r_size;
-  in_filename = "us_postal_codes_formatted.txt"
+  in_filename = "us_postal_codes_formatted.txt";
   first = NULL;
   
   load();
