@@ -460,8 +460,8 @@ void SequenceSet::populate(){
     b -> previous = NULL;               //prev is null
     b -> next = NULL;                   //next too
     b -> data.resize(block_size);       //resize the array to be the length of the block sizes
-    for (int i = 0; i < block_size; ++i){// for each block in that array
-      b -> data[i].resize(record_size);//resize it for the length of a record   //ERROR
+    for(int i = 0; i < block_size; i++){
+      b -> data[i] = {'a'};//b -> data[i].resize(recordSize);    resize it for the length of a record   //ERROR
     } 
     if(++block_count != 0){             //increase block count each iteration, and if it isnt 0 like the first iteration then set the first in the sequence set to be b
       b -> previous = prev;             //if not then send it to the next node.
