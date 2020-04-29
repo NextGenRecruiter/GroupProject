@@ -46,8 +46,9 @@ class SequenceSet
     fstream in_file;
     std::string in_filename;          //filename for input
     std::string out_filename;         //filename for output
-    vector<int> field_labels;  //labels of each field
-    vector<int> field_sizes;  //sizes of each field
+    vector<std::string> field_labels;  //labels of each field
+    vector<std::string> field_sizes;          //sizes of each field
+    vector<std::string> field_types;  //type for each field
 
   
   public:
@@ -70,6 +71,7 @@ class SequenceSet
     void validate();
     void addIndex(int primKey, Block *b);
     void delIndex(int primKey);
+    void developer_show();
 };
 
 
