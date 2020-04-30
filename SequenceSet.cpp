@@ -592,7 +592,27 @@ void SequenceSet::update(){
   purpose:
 
 */
-void SequenceSet::display_record(){
+void SequenceSet::display_record(int record = -1, int block = -1){
+  Block *b = first;
+  int b_count = 0, r_count, f_count;
+
+  if(block == -1){
+    std::cout << "Enter block index: " << std::endl;
+    std::cin >> block;
+  }
+  if(record == -1){
+    std::cout << "Enter record index: " << std::endl;
+    std::cin >> record;
+  }
+
+  while( b != NULL && b_count <= block){
+    b_count++;
+    b = b -> next;
+  }
+
+  std::string record_s = b -> data[record];
+
+  std::cout << record_s << "\n";
 
 }
 
@@ -621,20 +641,18 @@ void SequenceSet::display_field(int field = -1, int record = -1, int block = -1)
   }
 
 
-  while( b != NULL ){
-
-    for(std::string record : b -> data){
-
-      
-
-
-      
-      r_count++;
-    }
-
+  while( b != NULL && b_count <= block){
     b_count++;
     b = b -> next;
   }
+
+  std::vector<int> range =  get_field_range_tuple(field);
+
+  std::string record_s = b -> data[record];
+
+  std::cout << record_s.substr(range[0],range[1]) << "\n";
+
+
 }
 
 
@@ -645,10 +663,11 @@ void SequenceSet::display_field(int field = -1, int record = -1, int block = -1)
   purpose:
 
 */
-void SequenceSet::display_file(){
+void SequenceSet::display_file(int limit = -1){
+  if(limit == -1){limit = block_size;}
   Block *b = first;
   int count = 0;
-  while( b != NULL ){
+  while( b != NULL && count < limit){
     std::cout << "Block " << count << "\n";
     std::cout << "Records in Block " << count << ": " << b -> records_count << "\n";
     std::cout << "Head of Records: \n" << b -> data[0] << "\n";
@@ -668,7 +687,32 @@ void SequenceSet::display_file(){
 
 */
 void SequenceSet::display_SS(){
+  Block *b = first;
+  int count = 0;
+  std::string empty_records_index_string;
+  while( b != NULL){
+    std::cout << "\nBlock " << count << "\n";
+    std::cout << "Records in Block " << count << ": " << b -> records_count << "\n";
+    int r_count = 0;
+    empty_records_index_string = "[";
+    for(std::string r : b -> data){
+      if(r != ""){
+        std::cout << "Record " << r_count << ": \"" << r << "\"\n";
+        r_count++;
+      }else{
+        empty_records_index_string = empty_records_index_string + std::to_string(r_count) + ", ";
+        r_count++;
+      }
+    }
+    std::cout << "Empty Records: " << empty_records_index_string << "]\n";
+    std::cout << "\n\n";
 
+    std::cout << "Press enter to see next block...(Ctrl + C to stop)";
+    getchar();
+
+    count++;
+    b = b -> next;
+  }
 }
 
 

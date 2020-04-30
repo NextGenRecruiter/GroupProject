@@ -66,9 +66,9 @@ class SequenceSet
     void insert();                                                           //todo
     void del();                                                              //todo
     void update();                                                           //todo
-    void display_record();                                                   //todo
-    void display_field();                                                    //todo
-    void display_file();                                                     //todo
+    void display_record(int record, int block);                                                   //todo
+    void display_field(int field, int record, int block);                                                    //todo
+    void display_file(int limit);                                                     //todo
     void display_SS();                                                       //todo
     void validate();                                                         //todo
     void addIndex(int primKey, Block *b);                                    //todo
