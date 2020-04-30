@@ -46,7 +46,7 @@ std::vector<char> string_to_vector(std::string s, int n){
 
 */
 SequenceSet::SequenceSet(){
-  block_size = 512;  //records per block
+  block_size = 8;  //records per block
   record_size = 1; //characters per record
   in_filename = "us_postal_codes_formatted.txt";
   out_filename = "us_postal_codes_sequence_set_file.txt";
@@ -126,6 +126,7 @@ void SequenceSet::create(){
   //here i am making the header components to be at the top of the file 
   std::string file_type = "ascii";
   std::string header_record_size = "22 lines";
+  block_size = 512;
   record_size = -1;
   int max_record_count = -1;
   int f_count = field_count;
@@ -384,44 +385,7 @@ bool SequenceSet::is_empty(int flag, int block = -1, int record = -1, int field 
   purpose:
 
 */
-int SequenceSet::search(std::string search_term = ""){
-  //variables for looping and finding data
-  Block *b = first;
-  bool found = false;
-  int index;
-
-  //this get user input if no arguments were specified
-  if(search_term == ""){
-    std::cout << "Enter search term: " << std::endl;
-    std::cin >> search_term;
-  }
-
-  //go to each block
-  while(!found && b != NULL){
-    //get each record
-    for (std::string record : b -> data){
-      //check if it contains the search term
-      if(index = record.find(search_term, 0) != std::string::npos){
-        found = true;
-        return index;
-      }
-    }
-
-    b = b -> next;
-  }
-  //was not found so return improper value
-  return -1;
-}
-
-
-/*
-  Method: search
-  param:
-  return:
-  purpose:
-
-*/
-int SequenceSet::search_file(int primKey){
+int SequenceSet::search(int primKey){
   int offset;
   std::string line;
 
@@ -557,6 +521,10 @@ void SequenceSet::populate(){
 
 */
 void SequenceSet::insert(){
+  Block record;
+  std::ofstream out_file;
+
+
 
 }
 
@@ -593,6 +561,60 @@ void SequenceSet::update(){
 
 */
 void SequenceSet::display_record(){
+  	std::ifstream in_file;
+	in_file.open("us_postal_codes_formatted.txt");			//open the in_file 
+	int recordpos = 0;				//holds positiong in array if record
+	std::string primKey;				//user entered primKey to search
+	std::string temp ;				//string holdiing line from in_file
+	int blockposition = -2;			//postion of block
+	int datafromFile = 0; 			//in_file of block
+  Block *blockHead = new Block;
+  Block *currentBlock = new Block;
+  currentBlock = blockHead;				//sets current pointer to the head of block list
+	
+	std::cout<<"Enter the primary key of the record you would like displayed!"<<std::endl;
+	std::cin>>primKey;
+	
+	/*Reads the in_file and increments the blockpos int when we read in a new line.
+	We read a new line when the string from the in_file is larger than the user enetered value*/
+	
+	while(datafromFile <= block_size && !in_file.eof())
+	{
+		getline(in_file, temp);
+		std::stringstream data(temp); 
+		data>>datafromFile;	
+		blockposition++;
+	}
+	
+	
+	//advance the currentBlock pointer to the block that we searched the in_file for
+	for(int i = 0; i<blockposition;i++)
+	{
+		currentBlock = currentBlock->next;
+	}
+	if(currentBlock->next->next == NULL)
+	{
+		currentBlock= currentBlock->next;
+	}
+	
+	for(int i = 0; i<block_size; i++)
+	{
+		if(currentBlock->data[i]==primKey)		//if we find the primary key
+		{
+			recordpos=i;
+		}
+	}
+	/*Returnes the record that the user has requested*/
+	if((currentBlock->data[recordpos]) (!primKey.compare(currentBlock->data[recordpos])) && currentBlock->data[recordpos] == primKey )
+	{
+		std::cout<<currentBlock->data[recordpos]<<" "<<std::endl;
+	}
+	else
+	{
+		std::cout<<"The record you are looking for does not exist!"<<std::endl;
+	}
+
+	in_file.close();			//close in_file
 
 }
 
