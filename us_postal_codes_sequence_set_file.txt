@@ -2,7 +2,7 @@ File Type: ascii
 Header Size: 22 lines
 Block Size: 512
 Maximum Records: -1
-Minimum Capacity: 127%
+Minimum Capacity: 0.5%
 Record Size: -1
 Record Field Count: 6
 Zip Code|2-6|u_integer

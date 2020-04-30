@@ -26,6 +26,15 @@ std::vector<std::string> split_string(std::string str, char delimiter){
   return split_str;
 }
 
+std::vector<char> string_to_vector(std::string s, int n){
+  std::vector<char> v;
+  v.push_back(n);
+  for (char c : s){
+    v.push_back(c);
+  }
+  return v;
+}
+
 
 /*   Class Methods   */
 
@@ -41,6 +50,7 @@ SequenceSet::SequenceSet(){
   record_size = 1; //characters per record
   in_filename = "us_postal_codes_formatted.txt";
   out_filename = "us_postal_codes_sequence_set_file.txt";
+  default_cap = 0.5;
   primary_key_index = 0;
   first = NULL;
   end_of_header = "1234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890";
@@ -56,7 +66,7 @@ SequenceSet::SequenceSet(){
   this is the constructor for the header
 
 */
-SequenceSet::SequenceSet(int b_size, int r_size, int d_cap, std::string i_filename, std::string o_filename){
+SequenceSet::SequenceSet(int b_size, int r_size, float d_cap, std::string i_filename, std::string o_filename){
   block_size = b_size;
   record_size = r_size;
   default_cap = d_cap;
@@ -461,8 +471,8 @@ void SequenceSet::populate(){
     b -> next = NULL;                   //next too
     b -> data.resize(block_size);       //resize the array to be the length of the block sizes
     for(int i = 0; i < block_size; i++){
-      b -> data[i] = {'a'};//b -> data[i].resize(recordSize);    resize it for the length of a record   //ERROR
-    } 
+      b -> data[i] = "";    //resize it for the length of a record   //ERROR
+    }
     if(++block_count != 0){             //increase block count each iteration, and if it isnt 0 like the first iteration then set the first in the sequence set to be b
       b -> previous = prev;             //if not then send it to the next node.
       prev -> next = b;
@@ -472,23 +482,34 @@ void SequenceSet::populate(){
     prev = b;
 
 
-    //while block isn't 75% full, keep filling:
+    //while block isn't __% full, keep filling:
+    std::string line;
     while(record_number < (block_size * default_cap) && !in_file.eof()){
-      in_file.getline(&prev->data[record_number++][0], record_size+1);
+      std::getline(in_file, line);
+      prev -> data[record_number] = std::to_string(record_number) + line;
+      record_number++;
     }
+
+    std::cout << "got here1" << "\n";
     //get the primary key and add it to the tree
-    primary_key_tmp = &prev->data[record_number-1][0];
+    std::string tmp = prev->data[record_number];
+    primary_key_tmp = tmp[0];
+    std::cout << "yo: " << primary_key_tmp << "\n";
     primary_key_tmp.resize(6);
     primary_key_int = atoi(primary_key_tmp.c_str());
 
+    std::cout << "got here2" << "\n";
     current_node -> key[index_place%3] = primary_key_int;
     current_node -> block[index_place%3] = prev;
 
     prev -> records_count = record_number;
 
+    std::cout << "got here3" << "\n";
+
   }
   prev -> previous -> next = NULL;
-  delete prev;
+  delete(prev);
+  std::cout << "got here4" << "\n";
   
   //Build the B+ tree up from the "linked list" structure
 
@@ -564,7 +585,18 @@ void SequenceSet::display_field(){
 
 */
 void SequenceSet::display_file(){
-
+  Block *b = first;
+  int count = 0;
+  std::cout << "yo" << "\n";
+  while( b != NULL ){
+    std::cout << "Block " << count << "\n";
+    std::cout << "Records in Block " << count << ": " << b -> records_count << "\n";
+    std::cout << "Head of Records: \n" << b -> data[0] << "\n";
+    int last = b -> records_count - 1;
+    std::cout << "Tail of Records: \n" << b -> data[last] << "\n\n";
+    count++;
+    b = b -> next;
+  }
 }
 
 
@@ -677,4 +709,20 @@ void SequenceSet::developer_show(){
     std::cout << field_labels[i] << "|" << field_sizes[i] << "|" << field_types[i] << "\n";
   }
   std::cout << "\n";
+}
+
+/*
+often we want where the characters index is in the recod
+which is stored in the range
+but extracting that range isnt easy so heres a function to do it
+
+*/
+
+std::vector<int> SequenceSet::get_field_range_tuple(int field_index){
+  std::string s = field_sizes[field_index];
+  std::vector<std::string> sub_s = split_string(s, '-');
+  int low = atoi(sub_s[0].c_str());
+  int high = atoi(sub_s[1].c_str());
+  std::vector<int> r = {low,high};
+  return r;
 }

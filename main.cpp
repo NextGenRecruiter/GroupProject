@@ -58,6 +58,7 @@ int main(int arg_count, char** arg_values){
   
   data.create();
   data.populate();
+  data.display_file();
   //data.developer_show();
 
   //forbiden code here

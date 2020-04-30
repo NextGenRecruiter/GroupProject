@@ -40,7 +40,7 @@ class SequenceSet
     int field_count;          //count of fields per record
     int *field_offset;        //character offset per record
     int block_size;           //records per block
-    int default_cap;          //where the program will fill blocks to by default
+    float default_cap;          //where the program will fill blocks to by default
     int record_size;          //number of characters per record
     int primary_key_index;
     std::string end_of_header;
@@ -55,7 +55,7 @@ class SequenceSet
   
   public:
     SequenceSet();
-    SequenceSet(int b_size, int r_size, int d_cap, std::string i_filename, std::string o_filename);
+    SequenceSet(int b_size, int r_size, float d_cap, std::string i_filename, std::string o_filename);
     ~SequenceSet();
     void create();                                                           //todo
     void load();                                                              //done
@@ -73,7 +73,8 @@ class SequenceSet
     void validate();                                                         //todo
     void addIndex(int primKey, Block *b);                                    //todo
     void delIndex(int primKey);                                              //todo
-    void developer_show();                                                    //done
+    void developer_show();      
+    std::vector<int> get_field_range_tuple(int field_index);                                              //done
 };
 
 
@@ -97,7 +98,7 @@ struct SequenceSet::Block {
   Block *next, *previous;
   int records_count;
 
-  std::vector<  std::vector<char> > data; //2 dimensional vector holding all data
+  std::vector<  std::string > data; //1 dimensional vector holding all records as 1 string
 };
 
 /*
