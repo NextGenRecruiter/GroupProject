@@ -520,12 +520,27 @@ void SequenceSet::populate(){
   purpose:
 
 */
-void SequenceSet::insert(){
-  Block record;
-  std::ofstream out_file;
+void SequenceSet::insert(std::string new_record){
+  Block *b = first;
+  bool placed = false;
 
+  while( b != NULL && !placed){
+    if(b -> records_count < block_size){
+      b -> records_count++;
+      b -> data[b -> records_count] = new_record;
+      placed = true;
+    }
+    b = b -> next;
+  }
 
-
+  //all blocks filled make a new one
+  if(!placed){
+    Block *new_b = new Block;
+    new_b -> previous = b;
+    b -> next = new_b;
+    new_b -> records_count++;
+    new_b -> data[b -> records_count - 1] = new_record;
+  }
 }
 
 
@@ -536,8 +551,29 @@ void SequenceSet::insert(){
   purpose:
 
 */
-void SequenceSet::del(){
- 
+void SequenceSet::delete_record(int block = -1, int record = -1){
+  Block *b = first;
+  int b_count = 0, r_count;
+
+  if(block == -1){
+    std::cout << "Enter block index: " << std::endl;
+    std::cin >> block;
+  }
+  if(record == -1){
+    std::cout << "Enter record index: " << std::endl;
+    std::cin >> record;
+  }
+
+  while( b != NULL && b_count < block){
+    b_count++;
+    b = b -> next;
+  }
+
+  if (record > 0 && record < b -> records_count){
+    b -> data[record] = "";
+  }
+
+  delete(b);
 }
 
 
@@ -548,8 +584,67 @@ void SequenceSet::del(){
   purpose:
 
 */
-void SequenceSet::update(){
+void SequenceSet::update(int block, int record, int field, std::string new_field){
+  Block *b = first;
+  int b_count = 0, r_count;
 
+  if(block == -1){
+    std::cout << "Enter block index: " << std::endl;
+    std::cin >> block;
+  }
+  if(record == -1){
+    std::cout << "Enter record index: " << std::endl;
+    std::cin >> record;
+  }
+
+  while( b != NULL && b_count < block){
+    b_count++;
+    b = b -> next;
+  }
+
+  if (record > 0 && record < b -> records_count){    
+    std::string before, after, new_record;
+
+    std::vector<int> range = get_field_range_tuple(field);
+
+    before = b -> data[record].substr(0,range[0]);
+    after = b -> data[record].substr(range[1], b -> data[record].size());
+
+    new_record = before + new_field + after;
+    b -> data[record] = new_record;
+  }
+  delete(b);
+}
+
+void SequenceSet::update(int record, int field, std::string new_field){
+  Block *b = first;
+  int r_count = 0;
+
+  if(record == -1){
+    std::cout << "Enter record index: " << std::endl;
+    std::cin >> record;
+  }
+
+  while( b != NULL && r_count < record){
+    r_count = r_count + b -> records_count;
+    b = b -> next;
+
+    if(r_count > record){
+
+        if (record > 0 && record < b -> records_count){    
+        std::string before, after, new_record;
+
+        std::vector<int> range = get_field_range_tuple(field);
+
+        before = b -> data[record].substr(0,range[0]);
+        after = b -> data[record].substr(range[1], b -> data[record].size());
+
+        new_record = before + new_field + after;
+        b -> data[record] = new_record;
+      }
+    }
+  }
+  delete(b);
 }
 
 
@@ -573,7 +668,7 @@ void SequenceSet::display_record(int record = -1, int block = -1){
     std::cin >> record;
   }
 
-  while( b != NULL && b_count <= block){
+  while( b != NULL && b_count < block){
     b_count++;
     b = b -> next;
   }
@@ -581,7 +676,7 @@ void SequenceSet::display_record(int record = -1, int block = -1){
   std::string record_s = b -> data[record];
 
   std::cout << record_s << "\n";
-
+  delete(b);
 }
 
 /*
@@ -609,7 +704,7 @@ void SequenceSet::display_field(int field = -1, int record = -1, int block = -1)
   }
 
 
-  while( b != NULL && b_count <= block){
+  while( b != NULL && b_count < block){
     b_count++;
     b = b -> next;
   }
@@ -619,7 +714,7 @@ void SequenceSet::display_field(int field = -1, int record = -1, int block = -1)
   std::string record_s = b -> data[record];
 
   std::cout << record_s.substr(range[0],range[1]) << "\n";
-
+  delete(b);
 
 }
 
@@ -644,6 +739,7 @@ void SequenceSet::display_file(int limit = -1){
     count++;
     b = b -> next;
   }
+  delete(b);
 }
 
 
@@ -681,6 +777,7 @@ void SequenceSet::display_SS(){
     count++;
     b = b -> next;
   }
+  delete(b);
 }
 
 
