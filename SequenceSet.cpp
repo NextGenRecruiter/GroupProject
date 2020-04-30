@@ -603,8 +603,38 @@ void SequenceSet::display_record(){
   purpose:
 
 */
-void SequenceSet::display_field(){
+void SequenceSet::display_field(int field = -1, int record = -1, int block = -1){
+  Block *b = first;
+  int b_count = 0, r_count, f_count;
 
+  if(block == -1){
+    std::cout << "Enter block index: " << std::endl;
+    std::cin >> block;
+  }
+  if(record == -1){
+    std::cout << "Enter record index: " << std::endl;
+    std::cin >> record;
+  }
+  if(field == -1){
+    std::cout << "Enter field index: " << std::endl;
+    std::cin >> field;
+  }
+
+
+  while( b != NULL ){
+
+    for(std::string record : b -> data){
+
+      
+
+
+      
+      r_count++;
+    }
+
+    b_count++;
+    b = b -> next;
+  }
 }
 
 
@@ -618,7 +648,6 @@ void SequenceSet::display_field(){
 void SequenceSet::display_file(){
   Block *b = first;
   int count = 0;
-  std::cout << "yo" << "\n";
   while( b != NULL ){
     std::cout << "Block " << count << "\n";
     std::cout << "Records in Block " << count << ": " << b -> records_count << "\n";
