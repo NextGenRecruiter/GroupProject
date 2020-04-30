@@ -46,7 +46,7 @@ std::vector<char> string_to_vector(std::string s, int n){
 
 */
 SequenceSet::SequenceSet(){
-  block_size = 8;  //records per block
+  block_size = 512;  //records per block
   record_size = 1; //characters per record
   in_filename = "us_postal_codes_formatted.txt";
   out_filename = "us_postal_codes_sequence_set_file.txt";
@@ -126,7 +126,6 @@ void SequenceSet::create(){
   //here i am making the header components to be at the top of the file 
   std::string file_type = "ascii";
   std::string header_record_size = "22 lines";
-  block_size = 512;
   record_size = -1;
   int max_record_count = -1;
   int f_count = field_count;
