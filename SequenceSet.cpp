@@ -605,7 +605,7 @@ void SequenceSet::display_record(){
 		}
 	}
 	/*Returnes the record that the user has requested*/
-	if((currentBlock->data[recordpos]) (!primKey.compare(currentBlock->data[recordpos])) && currentBlock->data[recordpos] == primKey )
+	if((!primKey.compare(currentBlock->data[recordpos])) && (currentBlock->data[recordpos] == primKey) )
 	{
 		std::cout<<currentBlock->data[recordpos]<<" "<<std::endl;
 	}
