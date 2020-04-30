@@ -384,7 +384,44 @@ bool SequenceSet::is_empty(int flag, int block = -1, int record = -1, int field 
   purpose:
 
 */
-int SequenceSet::search(int primKey){
+int SequenceSet::search(std::string search_term = ""){
+  //variables for looping and finding data
+  Block *b = first;
+  bool found = false;
+  int index;
+
+  //this get user input if no arguments were specified
+  if(search_term == ""){
+    std::cout << "Enter search term: " << std::endl;
+    std::cin >> search_term;
+  }
+
+  //go to each block
+  while(!found && b != NULL){
+    //get each record
+    for (std::string record : b -> data){
+      //check if it contains the search term
+      if(index = record.find(search_term, 0) != std::string::npos){
+        found = true;
+        return index;
+      }
+    }
+
+    b = b -> next;
+  }
+  //was not found so return improper value
+  return -1;
+}
+
+
+/*
+  Method: search
+  param:
+  return:
+  purpose:
+
+*/
+int SequenceSet::search_file(int primKey){
   int offset;
   std::string line;
 

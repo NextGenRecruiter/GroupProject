@@ -61,7 +61,7 @@ class SequenceSet
     void load();                                                              //done
     void close();                                                             //done
     bool is_empty(int flag, int block, int record, int field); //done
-    int search(int primKey);                                                            //todo
+    int search(std::string search_term);                                                            //todo
     void populate();                                                         //todo
     void insert();                                                           //todo
     void del();                                                              //todo
@@ -74,6 +74,7 @@ class SequenceSet
     void addIndex(int primKey, Block *b);                                    //todo
     void delIndex(int primKey);                                              //todo
     void developer_show();      
+    int search_file(int primKey);
     std::vector<int> get_field_range_tuple(int field_index);                                              //done
 };
 
