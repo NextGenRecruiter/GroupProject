@@ -486,30 +486,25 @@ void SequenceSet::populate(){
     std::string line;
     while(record_number < (block_size * default_cap) && !in_file.eof()){
       std::getline(in_file, line);
-      prev -> data[record_number] = std::to_string(record_number) + line;
-      record_number++;
+      if(line != " "){
+        //std::cout << record_number << "  -" << line << "-\n";
+        prev -> data[record_number] = std::to_string(record_number) + line;
+        record_number++;
+      }
     }
 
-    std::cout << "got here1" << "\n";
-    //get the primary key and add it to the tree
+    //get the primary key and add it to the tree DO CONTINUE ON FROM HERE
     std::string tmp = prev->data[record_number];
-    primary_key_tmp = tmp[0];
-    std::cout << "yo: " << primary_key_tmp << "\n";
+    primary_key_tmp = tmp.substr(0,5);
     primary_key_tmp.resize(6);
     primary_key_int = atoi(primary_key_tmp.c_str());
-
-    std::cout << "got here2" << "\n";
     current_node -> key[index_place%3] = primary_key_int;
     current_node -> block[index_place%3] = prev;
 
     prev -> records_count = record_number;
 
-    std::cout << "got here3" << "\n";
-
   }
-  prev -> previous -> next = NULL;
   delete(prev);
-  std::cout << "got here4" << "\n";
   
   //Build the B+ tree up from the "linked list" structure
 

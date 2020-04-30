@@ -40941,3 +40941,4 @@ Longitude|87-94|float
  99928Ward Cove                      AKKetchikan Gateway                     55.3954 -131.6754
  99929Wrangell                       AKWrangell-Petersburg (C                56.4335 -132.3529
  99950Ketchikan                      AKKetchikan Gateway                     55.3422 -131.6478
+ 
