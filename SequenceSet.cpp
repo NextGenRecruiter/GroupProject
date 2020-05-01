@@ -385,29 +385,8 @@ bool SequenceSet::is_empty(int flag, int block = -1, int record = -1, int field 
   purpose:
 
 */
-int SequenceSet::search(int primKey){
-  int offset;
-  std::string line;
-
-  std::ifstream in_file;
-  in_file.open("us_postal_codes_formatted.txt");
-
-  std::cout<<"Enter the primary key of the record you want to search: "<<std::endl;
-  std::cin>>primKey;
-
-  if(in_file.is_open())
-  {
-    while(!in_file.eof()){
-      getline(in_file, line);
-      if(offset = line.find(primKey, 0) != std::string::npos){
-        std::cout<<"The record has been found " << primKey << std::endl;
-      }
-    }
-    in_file.close();
-  }else
-  {
-    std::cout<<"Record not found"<<std::endl;
-  }
+int SequenceSet::search(std::string search_term){
+  
   
   return 0;
 }
@@ -584,38 +563,6 @@ void SequenceSet::delete_record(int block = -1, int record = -1){
   purpose:
 
 */
-void SequenceSet::update(int block, int record, int field, std::string new_field){
-  Block *b = first;
-  int b_count = 0, r_count;
-
-  if(block == -1){
-    std::cout << "Enter block index: " << std::endl;
-    std::cin >> block;
-  }
-  if(record == -1){
-    std::cout << "Enter record index: " << std::endl;
-    std::cin >> record;
-  }
-
-  while( b != NULL && b_count < block){
-    b_count++;
-    b = b -> next;
-  }
-
-  if (record > 0 && record < b -> records_count){    
-    std::string before, after, new_record;
-
-    std::vector<int> range = get_field_range_tuple(field);
-
-    before = b -> data[record].substr(0,range[0]);
-    after = b -> data[record].substr(range[1], b -> data[record].size());
-
-    new_record = before + new_field + after;
-    b -> data[record] = new_record;
-  }
-  delete(b);
-}
-
 void SequenceSet::update(int record, int field, std::string new_field){
   Block *b = first;
   int r_count = 0;
@@ -657,14 +604,14 @@ void SequenceSet::update(int record, int field, std::string new_field){
 */
 void SequenceSet::display_record(int record = -1, int block = -1){
   Block *b = first;
-  int b_count = 0, r_count, f_count;
+  int b_count = 0;
 
-  if(block == -1){
-    std::cout << "Enter block index: " << std::endl;
+  while(block < 0){
+    std::cout << "\nEnter block index: ";
     std::cin >> block;
   }
-  if(record == -1){
-    std::cout << "Enter record index: " << std::endl;
+  while(record < 0){
+    std::cout << "\nEnter record index: ";
     std::cin >> record;
   }
 
@@ -673,9 +620,17 @@ void SequenceSet::display_record(int record = -1, int block = -1){
     b = b -> next;
   }
 
-  std::string record_s = b -> data[record];
+  std::string record_s = "*Record Not Found*";
+  if(b != NULL){
+    int size = b->records_count;
+    if(record >= 0 && record < size){
+      record_s = b -> data[record];
+    }else if(record >= 0 && record <= block_size){
+      record_s = "*Empty Record*";
+    }
+  }
 
-  std::cout << record_s << "\n";
+  std::cout << "\n\'" << record_s << "\'\n";
   delete(b);
 }
 
@@ -888,7 +843,7 @@ but extracting that range isnt easy so heres a function to do it
 */
 
 std::vector<int> SequenceSet::get_field_range_tuple(int field_index){
-  std::string s = field_sizes[field_index];
+  std::string s = field_sizes[field_index-1];
   std::vector<std::string> sub_s = split_string(s, '-');
   int low = atoi(sub_s[0].c_str());
   int high = atoi(sub_s[1].c_str());

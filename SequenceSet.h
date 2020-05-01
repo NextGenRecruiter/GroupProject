@@ -66,7 +66,6 @@ class SequenceSet
     void insert(std::string new_record);                                                           //todo
     void delete_record(int block, int record);                                                              //todo
     void update(int record, int field, std::string new_field);                                                           //todo
-    void update(int block, int record, int field, std::string new_field);                                                           //todo
     void display_record(int record, int block);                                                   //todo
     void display_field(int field, int record, int block);                                                    //todo
     void display_file(int limit);                                                     //todo

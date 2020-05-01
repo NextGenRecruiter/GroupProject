@@ -56,13 +56,13 @@ int main(int arg_count, char** arg_values){
   */
   SequenceSet data;
   
-  data.create();
-  data.populate();
-  data.display_field();
-  data.display_record();
-  data.display_file();
-  data.display_SS();
-  //data.developer_show();
+  data.create();                //this works great
+  data.populate();              //this works great
+  //data.display_field();
+  //data.display_record(); //works most of the time, with the occasional exit
+  //data.display_file();          //this works great
+  //data.display_SS();          //this works great
+  //data.developer_show();      //this works great
 
   //forbiden code here
   //wait for character so the screen does not disappear

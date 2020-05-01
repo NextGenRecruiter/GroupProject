@@ -13,7 +13,7 @@ Latitude|77-84|float
 Longitude|87-94|float
 Primary Key: Zip Code
 Avail Block Pointer: 0
-Active List: 0
+Active List: 0x7f
 Block Count: 0
 Record Count: 0
 Stale Flag: 0
