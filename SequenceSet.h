@@ -76,7 +76,8 @@ class SequenceSet
     void delIndex(int primKey);                                  /*! function prototype delIndex(int) that removes an index in a record */                                                    
     void developer_show();                                       /*! function prototype developer_show() that creates the columns the record will be diplayed into*/
     int search_file(int primKey);                                /*! function prototype search_file(int) searches for a file */
-    std::vector<int> get_field_range_tuple(int field_index);     /*! function prototype get_field_range_tuple(int) for extracting the range of character index in a record*/                                            
+    std::vector<int> get_field_range_tuple(int field_index);     /*! function prototype get_field_range_tuple(int) for extracting the range of character index in a record*/     
+    void nsew_most(std::string state);                                       
 };
 
 

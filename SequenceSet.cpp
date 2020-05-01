@@ -987,3 +987,28 @@ std::vector<int> SequenceSet::get_field_range_tuple(int field_index){
   std::vector<int> r = {low,high};
   return r;
 }
+
+
+void SequenceSet::nsew_most(std::string state){
+  Block *copy = first;
+  int n = -1, s = -1, e = -1, w = -1;
+
+  std::vector<int> loc = get_field_range_tuple(2);
+  int start = std::to_string(block_size).size() + loc[0] - 1, length = loc[1] - loc[0] + 1;
+  
+  std::vector<int> loc = get_field_range_tuple(2);
+  int start = std::to_string(block_size).size() + loc[0] - 1, length = loc[1] - loc[0] + 1;
+  while(copy != NULL){
+    int i = 0;
+    while(i < copy -> records_count){
+      std::string r = copy -> data[i];
+      std::string s = r.substr(start,length);
+      if (s == state){
+        std::cout << r << "\n";
+      }
+      i++;
+    }
+    copy = copy -> next;
+  }
+
+}

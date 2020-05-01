@@ -44,21 +44,32 @@
   Here is the main function to start the program.
 */
 int main(int arg_count, char** arg_values){
-
-  //show of arguments and example using them
-  //std::cout << "You have entered " << arg_count << " arguments:" << "\n";
-  //for (int i = 0; i < arg_count; ++i) 
-  //    std::cout << arg_values[i] << "\n";
-
-
+  
   /*
     Here we declare and initialize the sequence set data. This will call load().
   */
-  SequenceSet data;
   
+  SequenceSet data;
+
   data.create();                //this works great
 
   data.populate();              //this works great
+
+  //show of arguments and example using them
+  std::cout << "You have entered " << arg_count << " arguments:" << "\n";
+  for (int i = 0; i < arg_count; ++i) 
+      std::cout << arg_values[i] << "\n";
+
+  if(*arg_values[1] == 'a'){
+    std::cout << "Finding the furthest zip codes in: " << arg_values[2] << "\n";
+    data.nsew_most(arg_values[2]);
+  }
+
+  if(arg_values[1] == "b"){
+
+  }
+
+
 
   //while(true)
   //  data.display_field();
@@ -84,7 +95,7 @@ int main(int arg_count, char** arg_values){
   std::cout << "\nyeeeet" << "\nBlock:\t" << std::to_string(loc[0]) << "\nRecord:\t" << std::to_string(loc[1]) << "\n";
   */
 
-  data.insert("");
+  //data.insert("");
 
   /*
   data.update(0,0,0,"12345");
@@ -97,7 +108,7 @@ int main(int arg_count, char** arg_values){
 
 
   //data.display_SS();
-  data.validate();
+  //data.validate();
 
 
   //forbiden code here
