@@ -873,7 +873,7 @@ std::vector<int> SequenceSet::get_field_range_tuple(int field_index){
   std::string s = field_sizes[field_index];
   std::vector<std::string> sub_s = split_string(s, '-');
   int low = atoi(sub_s[0].c_str()) - 1;
-  int high = atoi(sub_s[1].c_str()) - 1;
+  int high = atoi(sub_s[1].c_str());
   std::vector<int> r = {low,high};
   return r;
 }
