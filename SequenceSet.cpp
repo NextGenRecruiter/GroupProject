@@ -684,8 +684,10 @@ void SequenceSet::display_field(int field = -1, int record = -1, int block = -1)
 
       if(field >= 0 && field < field_count){
         std::vector<int> ranges = get_field_range_tuple(field);
-        std::string field_s = record_s.substr(ranges[0]-1 + std::to_string(block_size).size(), (ranges[1] - (ranges[0]-2)));
-        std::cout << "\n\'" << ranges[0] << "-" << ranges[1] << "\'\n";
+        int length = (ranges[1] - (ranges[0]-1));
+        int start = ranges[0]-1 + std::to_string(block_size).size();
+        std::string field_s = record_s.substr(start, length);
+        //std::cout << "\n\'" << ranges[0] << "-" << ranges[1] << "\'\n";
         std::cout << "\n\'" << field_s << "\'\n";
         return;
       }
