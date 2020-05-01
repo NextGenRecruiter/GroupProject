@@ -995,7 +995,7 @@ void SequenceSet::nsew_most(std::string state){
 
   std::vector<int> loc = get_field_range_tuple(2);
   int start = std::to_string(block_size).size() + loc[0] - 1, length = loc[1] - loc[0] + 1;
-  
+
   std::vector<int> loc = get_field_range_tuple(2);
   int start = std::to_string(block_size).size() + loc[0] - 1, length = loc[1] - loc[0] + 1;
   while(copy != NULL){
@@ -1005,6 +1005,7 @@ void SequenceSet::nsew_most(std::string state){
       std::string s = r.substr(start,length);
       if (s == state){
         std::cout << r << "\n";
+        //find max of n, w, e, s
       }
       i++;
     }
