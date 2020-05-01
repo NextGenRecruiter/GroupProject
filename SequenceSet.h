@@ -1,4 +1,4 @@
-/*
+/*!
   Authors: Jacob Hopkins, Misky Abshir, Tyler Willard
   Date: 4/27/2020
 */
@@ -7,7 +7,7 @@
 #include <iterator>
 #include <vector>
 
-/*
+/*!
   This is a datatype for handling large file in and out of RAM.
   
   We need
@@ -30,57 +30,58 @@
     - (...private helper functions/methods)
     - (...debug functions/methods) {consider using a static debug flag for the class} 
 */
+/* SequenceSet class*/
 class SequenceSet
 {
   private:
-    struct Block;             //see below
-    struct Index;
-    Block *first;
-    Index *root;
-    int field_count;          //count of fields per record
-    int *field_offset;        //character offset per record
-    int block_size;           //records per block
-    float default_cap;          //where the program will fill blocks to by default
-    int record_size;          //number of characters per record
-    int primary_key_index;
-    std::string end_of_header;
-    std::fstream in_file;
-    std::ofstream out_file;
-    std::string in_filename;          //filename for input
-    std::string out_filename;         //filename for output
-    std::vector<std::string> field_labels;  //labels of each field
-    std::vector<std::string> field_sizes;          //sizes of each field
-    std::vector<std::string> field_types;  //type for each field
+    struct Block;               /*!< struct Block */
+    struct Index;               /*!< struct index for the indeces of the block */
+    Block *first;               /*!< pointer for the initial block */
+    Index *root;                /*!< pointer for the root index */
+    int field_count;            /*!< count of fields per record */
+    int *field_offset;          /*!< character offset per record */
+    int block_size;             /*!< records per block */
+    float default_cap;          /*!< where the program will fill blocks to by default */
+    int record_size;            /*!< number of characters per record */
+    int primary_key_index;      /*!< integer variable to hold the primary key for individual indeces */
+    std::string end_of_header;  /*!< string variable to hold the end of the header file */
+    std::fstream in_file;       /*!< variable container file type to hold the file that going to be read in memory*/
+    std::ofstream out_file;     /*!< variable container of type to hold the file that will be written to */
+    std::string in_filename;    /*!< filename for input */
+    std::string out_filename;   /*!< filename for output */
+    std::vector<std::string> field_labels;  /*!< labels of each field */
+    std::vector<std::string> field_sizes;   /*!< sizes of each field */
+    std::vector<std::string> field_types;  /*!< type for each field */
 
   
   public:
-    SequenceSet();
-    SequenceSet(int b_size, int r_size, float d_cap, std::string i_filename, std::string o_filename);
-    ~SequenceSet();
-    void create();                                                           //done
-    void load();                                                              //done
-    void close();                                                             //done
-    bool is_empty(int flag, int block, int record, int field);                //done
-    int search(std::string search_term);//compltete                                      //done
-    void populate();                                                         //todo
-    void insert(std::string new_record);      //test                                                     //todo
-    void delete_record(int block, int record);                                                              //todo
-    void update(int record, int field, std::string new_field);   //complete                                                        //todo
-    void display_record(int record, int block);                                                   //todo
-    void display_field(int field, int record, int block);          //complete                                          //todo
-    void display_file(int limit);                                                     //todo
-    void display_SS();                                                       //todo
-    void validate();                                                         //todo
-    void addIndex(int primKey, Block *b);                                    //todo
-    void delIndex(int primKey);                                              //todo
-    void developer_show();      
-    int search_file(int primKey);
-    std::vector<int> get_field_range_tuple(int field_index);                                              //done
+    SequenceSet();    //! default constructor.
+    SequenceSet(int b_size, int r_size, float d_cap, std::string i_filename, std::string o_filename); //! copy constructor 
+    ~SequenceSet();   //! destructor
+    void create();   /*! function prototype for create() that creates empty file for the header any it contains */                                                          
+    void load();     /*! function prototype for load() that load block of sequence set file into ram */                                                         
+    void close();    /*! function prototype for close() that is called when file needs to be closed */                                                           
+    bool is_empty(int flag, int block, int record, int field);    /*! prototype for is_empty() to know the state of the structure */          
+    int search(std::string search_term);    /*! function prototype for search(string) to search for specific record in the file from user input */                                
+    void populate();                        /*! function prototype for populate() that creates an empty node for a btree */                                                  
+    void insert(std::string new_record);    /*! function prototype for insert(strint) that inserts a new record into the file from user input */                                                     
+    void delete_record(int block, int record);   /*! function prototype for delete_record(int, int) that deletes specific record from user input */                                                       
+    void update(int record, int field, std::string new_field);   /*! function prototype for update(int, int, string) that updates a record, field or adds new field */                                                  
+    void display_record(int record, int block);                  /*! function prototype display_record(int, int) displays specific record request by user input */                                          
+    void display_field(int field, int record, int block);        /*! function prototype display_field(int, int, int) displays specific field request by user input */                                                
+    void display_file(int limit);                                /*! function prototype display_file(int) displays file request by user input */                                           
+    void display_SS();                                           /*! function prototype display_SS() to display the sequence set */                                               
+    void validate();                                             /*! function prototype validate() to validate a record in the file */                                         
+    void addIndex(int primKey, Block *b);                        /*! function prototype addIndex(int, Block) that adds an index in a record */                                  
+    void delIndex(int primKey);                                  /*! function prototype delIndex(int) that removes an index in a record */                                                    
+    void developer_show();                                       /*! function prototype developer_show() that creates the columns the record will be diplayed into*/
+    int search_file(int primKey);                                /*! function prototype search_file(int) searches for a file */
+    std::vector<int> get_field_range_tuple(int field_index);     /*! function prototype get_field_range_tuple(int) for extracting the range of character index in a record*/                                            
 };
 
 
 
-/*
+/*!
   Here we create a Block
 
   block size {default to (512B / block)} 
@@ -96,17 +97,17 @@ Each avail block should include the following components:
 
 */
 struct SequenceSet::Block {
-  Block *next, *previous;
-  int records_count;
+  Block *next, *previous; //! Block pointer 
+  int records_count; //! integer container for record count
 
-  std::vector<  std::string > data; //1 dimensional vector holding all records as 1 string
+  std::vector<  std::string > data; //! 1 dimensional vector holding all records as 1 string
 };
 
-/*
+/*!
   This is an index
 */
 struct SequenceSet::Index {
-  int key[4];
-  Block *block[4];
-  Index *subTree[4], *nextNode, *parent;
+  int key[4];  //! integer variable to hold the index key
+  Block *block[4];  //! block pointer
+  Index *subTree[4], *nextNode, *parent; //! index pointer
 };
