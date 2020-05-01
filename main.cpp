@@ -86,7 +86,18 @@ int main(int arg_count, char** arg_values){
 
   data.insert("");
 
-  data.display_SS();
+  /*
+  data.update(0,0,0,"12345");
+  data.update(0,0,1,"12345");
+  data.update(0,0,2,"12345");
+  data.update(0,0,3,"12345");
+  data.update(0,0,4," 12.345");
+  data.update(0,0,5,"-12.345");
+  */
+
+
+  //data.display_SS();
+  data.validate();
 
 
   //forbiden code here

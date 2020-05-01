@@ -66,7 +66,7 @@ class SequenceSet
     void populate();                        /*! function prototype for populate() that creates an empty node for a btree */                                                  
     void insert(std::string new_record);    /*! function prototype for insert(strint) that inserts a new record into the file from user input */                                                     
     void delete_record(int block, int record);   /*! function prototype for delete_record(int, int) that deletes specific record from user input */                                                       
-    void update(int record, int field, std::string new_field);   /*! function prototype for update(int, int, string) that updates a record, field or adds new field */                                                  
+    void update(int block, int record, int field, std::string new_field);   /*! function prototype for update(int, int, string) that updates a record, field or adds new field */                                                  
     void display_record(int record, int block);                  /*! function prototype display_record(int, int) displays specific record request by user input */                                          
     void display_field(int field, int record, int block);        /*! function prototype display_field(int, int, int) displays specific field request by user input */                                                
     void display_file(int limit);                                /*! function prototype display_file(int) displays file request by user input */                                           

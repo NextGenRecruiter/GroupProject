@@ -296,6 +296,15 @@ void SequenceSet::load(){
 
 */
 void SequenceSet::close(){
+
+  Block *b = first;
+  while( b != NULL){
+
+    b = b -> next;
+  }
+  delete(b);
+
+
   if (in_file.is_open()) {
     in_file.close();
   }
@@ -468,6 +477,7 @@ void SequenceSet::populate(){
     for(int i = 0; i < block_size; i++){
       b -> data[i] = "";    //resize it for the length of a record   //ERROR
     }
+
     if(++block_count != 0){             //increase block count each iteration, and if it isnt 0 like the first iteration then set the first in the sequence set to be b
       b -> previous = prev;             //if not then send it to the next node.
       prev -> next = b;
@@ -614,35 +624,41 @@ void SequenceSet::delete_record(int block = -1, int record = -1){
   purpose:
 
 */
-void SequenceSet::update(int record, int field, std::string new_field){
+void SequenceSet::update(int block, int record, int field, std::string new_field){
   Block *b = first;
-  int r_count = 0;
+  int b_count = 0;
 
-  if(record == -1){
-    std::cout << "Enter record index: " << std::endl;
-    std::cin >> record;
+  while(b != NULL && b_count < block){
+    b -> next;
+    b_count++;
   }
+  bool front = field == 0;
+  if(record >=0 && record < block_size){
+    if(field >= 0 && field < field_count){
+      std::string updated = "", current = b -> data[record];
 
-  while( b != NULL && r_count < record){
-    r_count = r_count + b -> records_count;
-    b = b -> next;
-
-    if(r_count > record){
-
-        if (record > 0 && record < b -> records_count){    
-        std::string before, after, new_record;
-
-        std::vector<int> range = get_field_range_tuple(field);
-
-        before = b -> data[record].substr(0,range[0]);
-        after = b -> data[record].substr(range[1], b -> data[record].size());
-
-        new_record = before + new_field + after;
-        b -> data[record] = new_record;
+      std::vector<int> loc = get_field_range_tuple(field);
+      int length = (loc[1] - loc[0])+1;
+      bool added = false;
+      int count = -2;
+      for(char c : current){
+        if(count < loc[0] || count > loc[1]){
+          updated = updated + c;
+        }else if(!added){
+          added = true;
+          if(new_field.size() <= length){
+            updated = updated + add_c_to_a_til_size_of_b(new_field, length, " ", front);
+          }else{
+            updated = updated + new_field.substr(0, length);
+          }
+        }
+        count++;
       }
+      std::cout << updated << "\n";
+      b -> data[record] = updated;
     }
   }
-  delete(b);
+
 }
 
 
@@ -845,7 +861,27 @@ void SequenceSet::display_SS(){
 
 */
 void SequenceSet::validate(){
-
+  Block *b = first;
+  std::vector<int> loc = get_field_range_tuple(0);
+  int start = 1 + std::to_string(block_size).size();
+  int length = 1 + ( loc[1] - loc[0] );
+  bool error = false;
+  while( b != NULL){
+    int last = b -> records_count;
+    for (int i = 0; i < last-1; i++){
+      int prev = atoi(b -> data[i].substr(start, length).c_str());
+      int current = atoi(b -> data[i+1].substr(start, length).c_str());
+      if( prev > current){
+        error = true;
+        std::cout << "Out Of Order: " << i << "\n";
+      }
+    }
+    b = b -> next;
+  }
+  if(!error){
+    std::cout << "Validated to be: In Order." << "\n";
+  }
+  delete(b);
 }
 
 
