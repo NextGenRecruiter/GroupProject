@@ -61,7 +61,7 @@ class SequenceSet
     void load();     /*! function prototype for load() that load block of sequence set file into ram */                                                         
     void close();    /*! function prototype for close() that is called when file needs to be closed */                                                           
     bool is_empty(int flag, int block, int record, int field);    /*! prototype for is_empty() to know the state of the structure */          
-    std:vector<int> search(std::string search_term);    /*! function prototype for search(string) to search for specific record in the file from user input */     
+    std::vector<int> search(std::string search_term);    /*! function prototype for search(string) to search for specific record in the file from user input */     
     std::string SequenceSet::get_field_from_record(int field, int record, int block);
     void populate();                        /*! function prototype for populate() that creates an empty node for a btree */                                                  
     void insert(std::string new_record);    /*! function prototype for insert(strint) that inserts a new record into the file from user input */                                                     
