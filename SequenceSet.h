@@ -54,29 +54,29 @@ class SequenceSet
 
   
   public:
-    SequenceSet();
-    SequenceSet(int b_size, int r_size, float d_cap, std::string i_filename, std::string o_filename);
-    ~SequenceSet();
-    void create();                                                         
-    void load();                                                       
-    void close();                                                     
-    bool is_empty(int flag, int block, int record, int field);          
-    std::vector<int> search(std::string search_term);//compltete
-    std::string get_field_from_record(int field, int record, int block);                      
-    void populate();                                                   
-    void insert(std::string new_record);      //test                                               
-    void delete_record(int block, int record);                                                        
-    void update(int record, int field, std::string new_field);   //complete                                              
-    void display_record(int record, int block);                                               
-    void display_field(int field, int record, int block);          //complete                                     
-    void display_file(int limit);                                              
-    void display_SS();                                                   
-    void validate();                                                  
-    void addIndex(int primKey, Block *b);                            
-    void delIndex(int primKey);                                        
-    void developer_show();      
-    int search_file(int primKey);
-    std::vector<int> get_field_range_tuple(int field_index);                               
+    SequenceSet();    //! default constructor.
+    SequenceSet(int b_size, int r_size, float d_cap, std::string i_filename, std::string o_filename); //! copy constructor 
+    ~SequenceSet();   //! destructor
+    void create();   /*! function prototype for create() that creates empty file for the header any it contains */                                                          
+    void load();     /*! function prototype for load() that load block of sequence set file into ram */                                                         
+    void close();    /*! function prototype for close() that is called when file needs to be closed */                                                           
+    bool is_empty(int flag, int block, int record, int field);    /*! prototype for is_empty() to know the state of the structure */          
+    std:vector<int> search(std::string search_term);    /*! function prototype for search(string) to search for specific record in the file from user input */     
+    std::string SequenceSet::get_field_from_record(int field, int record, int block);
+    void populate();                        /*! function prototype for populate() that creates an empty node for a btree */                                                  
+    void insert(std::string new_record);    /*! function prototype for insert(strint) that inserts a new record into the file from user input */                                                     
+    void delete_record(int block, int record);   /*! function prototype for delete_record(int, int) that deletes specific record from user input */                                                       
+    void update(int record, int field, std::string new_field);   /*! function prototype for update(int, int, string) that updates a record, field or adds new field */                                                  
+    void display_record(int record, int block);                  /*! function prototype display_record(int, int) displays specific record request by user input */                                          
+    void display_field(int field, int record, int block);        /*! function prototype display_field(int, int, int) displays specific field request by user input */                                                
+    void display_file(int limit);                                /*! function prototype display_file(int) displays file request by user input */                                           
+    void display_SS();                                           /*! function prototype display_SS() to display the sequence set */                                               
+    void validate();                                             /*! function prototype validate() to validate a record in the file */                                         
+    void addIndex(int primKey, Block *b);                        /*! function prototype addIndex(int, Block) that adds an index in a record */                                  
+    void delIndex(int primKey);                                  /*! function prototype delIndex(int) that removes an index in a record */                                                    
+    void developer_show();                                       /*! function prototype developer_show() that creates the columns the record will be diplayed into*/
+    int search_file(int primKey);                                /*! function prototype search_file(int) searches for a file */
+    std::vector<int> get_field_range_tuple(int field_index);     /*! function prototype get_field_range_tuple(int) for extracting the range of character index in a record*/                                            
 };
 
 
