@@ -57,25 +57,26 @@ class SequenceSet
     SequenceSet();
     SequenceSet(int b_size, int r_size, float d_cap, std::string i_filename, std::string o_filename);
     ~SequenceSet();
-    void create();                                                           //done
-    void load();                                                              //done
-    void close();                                                             //done
-    bool is_empty(int flag, int block, int record, int field);                //done
-    int search(std::string search_term);//compltete                                      //done
-    void populate();                                                         //todo
-    void insert(std::string new_record);      //test                                                     //todo
-    void delete_record(int block, int record);                                                              //todo
-    void update(int record, int field, std::string new_field);   //complete                                                        //todo
-    void display_record(int record, int block);                                                   //todo
-    void display_field(int field, int record, int block);          //complete                                          //todo
-    void display_file(int limit);                                                     //todo
-    void display_SS();                                                       //todo
-    void validate();                                                         //todo
-    void addIndex(int primKey, Block *b);                                    //todo
-    void delIndex(int primKey);                                              //todo
+    void create();                                                         
+    void load();                                                       
+    void close();                                                     
+    bool is_empty(int flag, int block, int record, int field);          
+    std::vector<int> search(std::string search_term);//compltete
+    std::string get_field_from_record(int field, int record, int block);                      
+    void populate();                                                   
+    void insert(std::string new_record);      //test                                               
+    void delete_record(int block, int record);                                                        
+    void update(int record, int field, std::string new_field);   //complete                                              
+    void display_record(int record, int block);                                               
+    void display_field(int field, int record, int block);          //complete                                     
+    void display_file(int limit);                                              
+    void display_SS();                                                   
+    void validate();                                                  
+    void addIndex(int primKey, Block *b);                            
+    void delIndex(int primKey);                                        
     void developer_show();      
     int search_file(int primKey);
-    std::vector<int> get_field_range_tuple(int field_index);                                              //done
+    std::vector<int> get_field_range_tuple(int field_index);                               
 };
 
 

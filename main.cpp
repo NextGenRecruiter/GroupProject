@@ -57,13 +57,37 @@ int main(int arg_count, char** arg_values){
   SequenceSet data;
   
   data.create();                //this works great
+
   data.populate();              //this works great
-  while(true)
-    data.display_field();
+
+  //while(true)
+  //  data.display_field();
+
   //data.display_record(); //works most of the time, with the occasional exit
+
   //data.display_file();          //this works great
+
   //data.display_SS();          //this works great
+
   //data.developer_show();      //this works great
+
+  /*
+  std::vector<int> loc = data.search(data.get_field_from_record(0,0,0));
+  std::cout << "\n" << data.get_field_from_record(0,0,0) << "\nBlock:\t" << std::to_string(loc[0]) << "\nRecord:\t" << std::to_string(loc[1]) << "\n";
+  loc = data.search(data.get_field_from_record(4,1,0));
+  std::cout << "\n" << data.get_field_from_record(4,1,0) << "\nBlock:\t" << std::to_string(loc[0]) << "\nRecord:\t" << std::to_string(loc[1]) << "\n";
+  loc = data.search(data.get_field_from_record(4,1,1));
+  std::cout << "\n" << data.get_field_from_record(4,1,1) << "\nBlock:\t" << std::to_string(loc[0]) << "\nRecord:\t" << std::to_string(loc[1]) << "\n";
+  loc = data.search("42.1934"); // from line 28
+  std::cout << "\n42.1934" << "\nBlock:\t" << std::to_string(loc[0]) << "\nRecord:\t" << std::to_string(loc[1]) << "\n";
+  loc = data.search("yeeeet"); // from line 28
+  std::cout << "\nyeeeet" << "\nBlock:\t" << std::to_string(loc[0]) << "\nRecord:\t" << std::to_string(loc[1]) << "\n";
+  */
+
+  data.insert("");
+
+  data.display_SS();
+
 
   //forbiden code here
   //wait for character so the screen does not disappear

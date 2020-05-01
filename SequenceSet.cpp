@@ -48,6 +48,18 @@ std::string add_c_to_a_til_size_of_b(std::string a,std::string b,std::string c, 
   return new_a;
 }
 
+std::string add_c_to_a_til_size_of_b(std::string a,int b,std::string c, bool front = true){
+  std::string new_a = a;
+  while(new_a.size() < b){
+    if(front){
+      new_a = c + new_a;
+    }else{
+      new_a = new_a + c;
+    }
+  }
+  return new_a;
+}
+
 
 /*   Class Methods   */
 
@@ -331,7 +343,7 @@ bool SequenceSet::is_empty(int flag, int block = -1, int record = -1, int field 
 
   }
 
-  if(flag == 2){ // record
+  if(flag == 2 || flag == 3){ // record or field
     if (block == -1){
       std::cout << "Index of Block to check: ";
       std::cin >> block;
@@ -350,40 +362,8 @@ bool SequenceSet::is_empty(int flag, int block = -1, int record = -1, int field 
         std::cin >> record;
       }
 
-      status = (b -> data[record][0] == ' ');
+      status = (b -> data[record] == "");
 
-    }
-  }
-
-  if(flag == 3){ // field
-    if (block == -1){
-      std::cout << "Index of Block to check: ";
-      std::cin >> block;
-    }
-
-    Block *b = first;
-    while(block > 0){
-      status = (b==NULL);
-      b = b -> next;
-      block--;
-    }
-
-    if(!status){//block is valid
-      if (record == -1){
-        std::cout << "Index of Record to check: ";
-        std::cin >> record;
-      }
-
-      status = (b -> data[record][0] == ' ');
-
-      if (!status){
-        if (field == -1){
-          std::cout << "Index of Field to check: ";
-          std::cin >> field;
-        }
-
-        status = (b -> data[record][field] == ' ');
-      }
     }
   }
 
@@ -398,10 +378,33 @@ bool SequenceSet::is_empty(int flag, int block = -1, int record = -1, int field 
   purpose:
 
 */
-int SequenceSet::search(std::string search_term){
-  
-  
-  return 0;
+std::vector<int> SequenceSet::search(std::string search_term){
+  Block *b = first;
+  std::vector<int> loc;
+  int block_count = -1, record_count = -1;
+
+  while(b != NULL){
+    block_count++;
+    record_count = -1;
+    for(std::string record : b -> data){
+      record_count++;
+      if(record_count > b -> records_count){
+        break;
+      }
+      if(record.size() <= search_term.size()){
+        if(record.find(search_term, 0) != std::string::npos){
+          loc.push_back(block_count);
+          loc.push_back(record_count);
+          return loc;
+        }
+      }
+    }
+
+    b = b -> next;
+  }
+  loc.push_back(-1);
+  loc.push_back(-1);
+  return loc;
 }
 
 
@@ -513,13 +516,38 @@ void SequenceSet::populate(){
 
 */
 void SequenceSet::insert(std::string new_record){
+  if(new_record == ""){
+    std::vector<std::string> constructed_record;
+    std::vector<int> ranges;
+    std::string term;
+    int i = 0;
+    for(std::string field: field_labels){
+      term = "";
+      ranges = get_field_range_tuple(i);
+      int length = (ranges[1] - (ranges[0]-1));
+      while(term.size() != length){
+        std::cout << "Input " << field << ": ";
+        std::cin >> term;
+        term = add_c_to_a_til_size_of_b(term, length," ",false);
+      }
+      constructed_record.push_back(term);
+      i++;
+    }
+
+    for(std::string s: constructed_record){
+      new_record = new_record + s;
+    }
+  }
+
   Block *b = first;
   bool placed = false;
+  int block = -1;
 
   while( b != NULL && !placed){
+    block++;
     if(b -> records_count < block_size){
       b -> records_count++;
-      b -> data[b -> records_count] = new_record;
+      b -> data[b -> records_count] = std::to_string(b -> records_count) + " " + new_record;
       placed = true;
     }
     b = b -> next;
@@ -527,12 +555,15 @@ void SequenceSet::insert(std::string new_record){
 
   //all blocks filled make a new one
   if(!placed){
+    block++;
     Block *new_b = new Block;
     new_b -> previous = b;
     b -> next = new_b;
     new_b -> records_count++;
-    new_b -> data[b -> records_count - 1] = new_record;
+    new_b -> data[new_b -> records_count - 1] = std::to_string(new_b -> records_count - 1) + " " + new_record;
   }
+
+  std::cout << "\nInserted into: \nBlock\t" << block << "\nRecord\t" << b -> records_count << "\n";
 }
 
 
@@ -702,6 +733,36 @@ void SequenceSet::display_field(int field = -1, int record = -1, int block = -1)
   delete(b);
 }
 
+std::string SequenceSet::get_field_from_record(int field, int record, int block){
+  Block *b = first;
+  int b_count = 0;
+
+  while( b != NULL && b_count < block){
+    b_count++;
+    b = b -> next;
+  }
+
+  std::string record_s;  // if we are not in range or acceptable give null
+  if(b != NULL){
+    int size = b->records_count;
+    if(record >= 0 && record < size){
+      record_s = b -> data[record];
+
+      if(field >= 0 && field < field_count){
+        std::vector<int> ranges = get_field_range_tuple(field);
+        int length = (ranges[1] - (ranges[0]-1));
+        int start = ranges[0]-1 + std::to_string(block_size).size();
+        std::string field_s = record_s.substr(start, length);
+        return field_s;
+      }
+
+    }else if(record >= 0 && record <= block_size){
+      return "";
+    }
+  }
+  delete(b);
+  return NULL;
+}
 
 /*
   Method: display_file
@@ -738,6 +799,10 @@ void SequenceSet::display_SS(){
   Block *b = first;
   int count = 0;
   std::string empty_records_index_string;
+  
+  std::cout << "\n\nPress enter to see next block...(Ctrl + C to stop)";
+  getchar();
+
   while( b != NULL){
     std::cout << "\nBlock " << count << "\n";
     std::cout << "Records in Block " << count << ": " << b -> records_count << "\n";
