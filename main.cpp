@@ -58,7 +58,8 @@ int main(int arg_count, char** arg_values){
   
   data.create();                //this works great
   data.populate();              //this works great
-  //data.display_field();
+  while(true)
+    data.display_field();
   //data.display_record(); //works most of the time, with the occasional exit
   //data.display_file();          //this works great
   //data.display_SS();          //this works great

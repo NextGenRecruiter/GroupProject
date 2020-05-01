@@ -35,6 +35,19 @@ std::vector<char> string_to_vector(std::string s, int n){
   return v;
 }
 
+std::string add_c_to_a_til_size_of_b(std::string a,std::string b,std::string c, bool front = true){
+  int size_to_be = b.size();
+  std::string new_a = a;
+  while(new_a.size() < size_to_be){
+    if(front){
+      new_a = c + new_a;
+    }else{
+      new_a = new_a + c;
+    }
+  }
+  return new_a;
+}
+
 
 /*   Class Methods   */
 
@@ -467,7 +480,7 @@ void SequenceSet::populate(){
       std::getline(in_file, line);
       if(line != " "){
         //std::cout << record_number << "  -" << line << "-\n";
-        prev -> data[record_number] = std::to_string(record_number) + line;
+        prev -> data[record_number] = add_c_to_a_til_size_of_b(std::to_string(record_number), std::to_string(block_size), "0") + line;
         record_number++;
       }
     }
@@ -643,34 +656,48 @@ void SequenceSet::display_record(int record = -1, int block = -1){
 */
 void SequenceSet::display_field(int field = -1, int record = -1, int block = -1){
   Block *b = first;
-  int b_count = 0, r_count, f_count;
+  int b_count = 0;
 
-  if(block == -1){
-    std::cout << "Enter block index: " << std::endl;
+  while(block < 0){
+    std::cout << "\nEnter block index: ";
     std::cin >> block;
   }
-  if(record == -1){
-    std::cout << "Enter record index: " << std::endl;
+  while(record < 0){
+    std::cout << "\nEnter record index: ";
     std::cin >> record;
   }
-  if(field == -1){
-    std::cout << "Enter field index: " << std::endl;
+  while(field < 0){
+    std::cout << "\nEnter field index: ";
     std::cin >> field;
   }
-
 
   while( b != NULL && b_count < block){
     b_count++;
     b = b -> next;
   }
 
-  std::vector<int> range =  get_field_range_tuple(field);
+  std::string record_s = "*Record Not Found*";
+  if(b != NULL){
+    int size = b->records_count;
+    if(record >= 0 && record < size){
+      record_s = b -> data[record];
 
-  std::string record_s = b -> data[record];
+      if(field >= 0 && field < field_count){
+        std::vector<int> ranges = get_field_range_tuple(field);
+        std::string field_s = record_s.substr(ranges[0] + std::to_string(block_size).size(), ranges[1]);
+        std::cout << "\n\'" << ranges[0] << "-" << ranges[1] << "\'\n";
+        std::cout << "\n\'" << field_s << "\'\n";
+        return;
+      }
 
-  std::cout << record_s.substr(range[0],range[1]) << "\n";
+    }else if(record >= 0 && record <= block_size){
+      record_s = "*Empty Record*";
+      std::cout << "\n\'" << record_s << "\'\n";
+    }
+  }
+
+  std::cout << "\n\'" << record_s << "\'\n";
   delete(b);
-
 }
 
 
@@ -843,10 +870,10 @@ but extracting that range isnt easy so heres a function to do it
 */
 
 std::vector<int> SequenceSet::get_field_range_tuple(int field_index){
-  std::string s = field_sizes[field_index-1];
+  std::string s = field_sizes[field_index];
   std::vector<std::string> sub_s = split_string(s, '-');
-  int low = atoi(sub_s[0].c_str());
-  int high = atoi(sub_s[1].c_str());
+  int low = atoi(sub_s[0].c_str()) - 1;
+  int high = atoi(sub_s[1].c_str()) - 1;
   std::vector<int> r = {low,high};
   return r;
 }
