@@ -990,22 +990,33 @@ std::vector<int> SequenceSet::get_field_range_tuple(int field_index){
 
 
 void SequenceSet::nsew_most(std::string state){
+  int east_most = 0;
+  int west_most = 0;
+  int north_most = 0;
+  int south_most = 0;
   Block *copy = first;
   int n = -1, s = -1, e = -1, w = -1;
 
   std::vector<int> loc = get_field_range_tuple(2);
-  int start = std::to_string(block_size).size() + loc[0] - 1, length = loc[1] - loc[0] + 1;
+  int start = std::to_string(block_size).size() + loc[0] - 1, length_state = loc[1] - loc[0] + 1;
 
-  std::vector<int> loc = get_field_range_tuple(2);
-  int start = std::to_string(block_size).size() + loc[0] - 1, length = loc[1] - loc[0] + 1;
+  std::vector<int> loc_lat = get_field_range_tuple(4);
+  int start_lat = std::to_string(block_size).size() + loc_lat[0] - 1, length_lat = loc_lat[1] - loc_lat[0] + 1;
+
+  std::vector<int> loc_long = get_field_range_tuple(5);
+  int start_long = std::to_string(block_size).size() + loc_long[0] - 1, length_long = loc_long[1] - loc_long[0] + 1;
+
   while(copy != NULL){
     int i = 0;
     while(i < copy -> records_count){
       std::string r = copy -> data[i];
-      std::string s = r.substr(start,length);
+      std::string s = r.substr(start,length_state);
       if (s == state){
         std::cout << r << "\n";
         //find max of n, w, e, s
+        std::string lat_s = r.substr(start_lat,length_lat);
+        std::string long_s = r.substr(start_long,length_long);
+        std::cout << lat_s << "  -  " << long_s << "\n";
       }
       i++;
     }
