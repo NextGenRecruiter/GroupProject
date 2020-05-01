@@ -51,11 +51,11 @@ int main(int arg_count, char** arg_values){
   
   SequenceSet data;
 
-  data.create();                //this works great
+  data.create();                //!
 
-  data.populate();              //this works great
+  data.populate();              //!
 
-  //show of arguments and example using them
+  //! show of arguments and example using them
   std::cout << "You have entered " << arg_count << " arguments:" << "\n";
   for (int i = 0; i < arg_count; ++i) 
       std::cout << arg_values[i] << "\n";

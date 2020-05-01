@@ -5,9 +5,13 @@
 #include <string>
 #include <sstream>
 
-/*   Utility Methods  */
+//!   Utility Methods 
+/**
+  * param  string str, char delimiter
+  * return 
+  * purpose  This function will take apart a string and split it by some char delimeter  
 
-//This function will take apart a string and split it by some char delimeter
+*/
 std::vector<std::string> split_string(std::string str, char delimiter){
   std::vector<std::string> split_str;
   std::string word;
@@ -63,11 +67,11 @@ std::string add_c_to_a_til_size_of_b(std::string a,int b,std::string c, bool fro
 
 /*   Class Methods   */
 
-/*
-  Here we have the first constructor for the SequenceSet i think this will be deleted in the end
-  @param  int b_size, int r_size
-  @return n/a
-  @purpose  this will initialize some of our data and open the file to default
+/*!
+  \Here we have the first constructor for the SequenceSet i think this will be deleted in the end
+  \@param  int b_size, int r_size
+  \@return n/a
+  \@purpose  this will initialize some of our data and open the file to default
 
 */
 SequenceSet::SequenceSet(){
@@ -83,12 +87,12 @@ SequenceSet::SequenceSet(){
   load();
 }
 
-/*
-  Here we have the constructor for the SequenceSet that takes in all the values relivant to the header and saving
-  @param int b_size, int r_size, int d_cap, std::string i_filename, std::string o_filename
-  @return n/a
-  @purpose  this will initialize some of our data and open the file and output file 
-  this is the constructor for the header
+/*!
+  \Here we have the constructor for the SequenceSet that takes in all the values relivant to the header and saving
+  \@param int b_size, int r_size, int d_cap, std::string i_filename, std::string o_filename
+  \@return n/a
+  \@purpose  this will initialize some of our data and open the file and output file 
+  \this is the constructor for the header
 
 */
 SequenceSet::SequenceSet(int b_size, int r_size, float d_cap, std::string i_filename, std::string o_filename){
@@ -104,11 +108,11 @@ SequenceSet::SequenceSet(int b_size, int r_size, float d_cap, std::string i_file
   load();
 }
 
-/*
-  Here we have the first destructor for the SequenceSet
-  @param n/a
-  @return n/a
-  @purpose  this free memory
+/*!
+  \Here we have the first destructor for the SequenceSet
+  \@param n/a
+  \@return n/a
+  \@purpose  this free memory
 
 */
 SequenceSet::~SequenceSet(){
@@ -116,39 +120,39 @@ SequenceSet::~SequenceSet(){
 }
 
 
-/*
-  Method: create
-  param:none
-  return:none
-  purpose: this will create the empty file with just the header and any data in the data array
+/**
+  * Method: create
+  * param:none
+  * return:none
+  * purpose: this will create the empty file with just the header and any data in the data array
 
-  Your header record should include the following components:
-    --sequence set file type
-    --header record size
-    --block size {default to (512B / block)}
-    --maximum count of records per block
-        --minimum capacity: 50%
-        -(for simplicity, require an even number) 
-    --record size
-    --count of fields per record
-    --field info triple (tuple) {AoS or SoA}
-        --name or ID
-        --size
-        --type schema
-            -(format to read or write) 
-    -indicate field which serves as the primary key
-    --pointer to the block avail-list
-    -pointer to the active sequence set list
-    -block count
-    -record count
-    -stale flag
-    -Simple Index (10.3)
-        -file name
-        -schema information 
+  * Your header record should include the following components:
+    * --sequence set file type
+    * --header record size
+    * --block size {default to (512B / block)}
+    * --maximum count of records per block
+        * --minimum capacity: 50%
+        * -(for simplicity, require an even number) 
+    * --record size
+    * --count of fields per record
+    * --field info triple (tuple) {AoS or SoA}
+        * --name or ID
+        * --size
+        * --type schema
+            * -(format to read or write) 
+    * -indicate field which serves as the primary key
+    * --pointer to the block avail-list
+    * -pointer to the active sequence set list
+    * -block count
+    * -record count
+    * -stale flag
+    * -Simple Index (10.3)
+        * -file name
+        * -schema information 
 
 */
 void SequenceSet::create(){
-  //here i am making the header components to be at the top of the file 
+  //! here i am making the header components to be at the top of the file 
   std::string file_type = "ascii";
   std::string header_record_size = "22 lines";
   block_size = 512;
@@ -161,7 +165,7 @@ void SequenceSet::create(){
   int record_count = 0;
   bool stale = false;
 
-  //here is a disign desicion: SoA or AoS here structure
+  //! here is a disign desicion: SoA or AoS here structure
   struct field_tuple{
     std::string label;
     std::string size;
@@ -173,7 +177,7 @@ void SequenceSet::create(){
       type = c;
     };
   };
-  //here is an array of structures
+  //! here is an array of structures
   std::vector<field_tuple> fields;
   for (int i = 0; i < field_count; i++){
     fields.push_back(field_tuple(field_labels[i],field_sizes[i],field_types[i]));
@@ -181,7 +185,7 @@ void SequenceSet::create(){
   
   out_file.open(out_filename);
 
-  //write the header
+  //! write the header
   out_file << "File Type: " << file_type << "\n";
   out_file << "Header Size: " <<  header_record_size << "\n";
   out_file << "Block Size: " <<  block_size << "\n";
@@ -206,31 +210,30 @@ void SequenceSet::create(){
 }
 
 
-/*
-  Method: load
-  param:
-  return:
-  purpose:
-  here we load blocks from the sequence set file into ram
+/**
+  * Method: load
+  * param:n\a
+  * return:n\a
+  * purpose:here we load blocks from the sequence set file into ram
 */
 void SequenceSet::load(){
-  //create a local file for loading in that data
+  //! create a local file for loading in that data
   std::string line = "";
   in_file.open(in_filename);
 
-  //if the file ended then tell the user and exit
+  //! if the file ended then tell the user and exit
   if (in_file.fail()) {
     exit(1);
   }
 
-  //go through each line of the file
+  //! go through each line of the file
   while(std::getline(in_file, line)){
-    //if we find the end of header tag then break
+    //! if we find the end of header tag then break
     if(!end_of_header.compare(line))
       break;
     
-    //cut it into words. look for "Fields:"
-    //Record the feilds and stop
+    //! cut it into words. look for "Fields:"
+    //! Record the feilds and stop
     std::vector<std::string> spaceless_line = split_string(line, ' ');
     if (!spaceless_line[0].compare("Fields:")){
       std::stringstream field_count_string(spaceless_line[1]);
@@ -239,21 +242,21 @@ void SequenceSet::load(){
     }
   }
 
-  //here are the strings to find what field is in what spot. a function to strip spaces would be ideal here
+  //! here are the strings to find what field is in what spot. a function to strip spaces would be ideal here
   std::string field_name_identifier = "Field Name  ";
   std::string column_range_identifier = "   column range    ";
   std::string type_identifier = "   type ";
 
-  //here are the store of index's for what in what order
+  //! here are the store of index's for what in what order
   int index_of_field_name = -1;
   int index_of_collum_size = -1;
   int index_of_type = -1;
 
-  //get the line
+  //! get the line
   std::getline(in_file, line);
-  //split it into section
+  //! split it into section
   std::vector<std::string> field_data_positions = split_string(line, '|');
-  //for each one see if it is one of the identifiers above and if so store its location
+  //! for each one see if it is one of the identifiers above and if so store its location
   for (int i = 0; i < field_data_positions.size(); i++){
     if (!field_data_positions[i].compare(field_name_identifier))
       index_of_field_name = i;
@@ -264,35 +267,35 @@ void SequenceSet::load(){
   }
 
 
-  //start a counter
+  //! start a counter
   int i = 0;
-  //go while we still have lines and are not taking too many fields
+  //! go while we still have lines and are not taking too many fields
   while (std::getline(in_file, line) && i < field_count){
-    //if we find the end of header tag then break
+    //! if we find the end of header tag then break
     if(!end_of_header.compare(line))
       break;
     
-    //take each line which will house the field data
+    //! take each line which will house the field data
     std::vector<std::string> field_data_split = split_string(line, '|');
-    //chop it and put it into the correct vector to be used later.
+    //! chop it and put it into the correct vector to be used later.
     field_labels.push_back(field_data_split[index_of_field_name]);
     field_sizes.push_back(field_data_split[index_of_collum_size]);
     field_types.push_back(field_data_split[index_of_type]);
 
-    //increase since we have another field that was specified
+    //! increase since we have another field that was specified
     i++;
   }
 
-  //close files
+  //! close files
   close();
 }
 
 
-/*
-  Method: close
-  param:none
-  return:none
-  purpose:close files if needed
+/**
+  * Method: close
+  * param:none
+  * return:none
+  * purpose:close files if needed
 
 */
 void SequenceSet::close(){
@@ -314,29 +317,29 @@ void SequenceSet::close(){
 }
 
 
-/*
-  Method: is_open
-  param: int flag 
-      0 - file
-      1 - block
-      2 - record
-      3 - field
-  return: bool true if empty and false if populated
-  purpose: to know the state of a structure
+/*!
+  * Method: is_open
+  * param: int flag 
+      * 0 - file
+      * 1 - block
+      * 2 - record
+      * 3 - field
+  * return: bool true if empty and false if populated
+  * purpose: to know the state of a structure
 
-  if nothing is given but the flag then it will do input/output on command line for user
-  and will take in the index's of requested whatever structure and tell you its status
+  * if nothing is given but the flag then it will do input/output on command line for user
+  * and will take in the index's of requested whatever structure and tell you its status
 
 */
 bool SequenceSet::is_empty(int flag, int block = -1, int record = -1, int field = -1){
-  //this will check the status of requested
+  //! this will check the status of requested
   bool status;
 
-  if(flag == 0){ // file or the whole linked list
+  if(flag == 0){ //!  file or the whole linked list
     status = (first == NULL);
   }
 
-  if(flag == 1){ // block
+  if(flag == 1){ //! block
 
     if (block == -1){
       std::cout << "Index of Block to check: ";
@@ -352,7 +355,7 @@ bool SequenceSet::is_empty(int flag, int block = -1, int record = -1, int field 
 
   }
 
-  if(flag == 2 || flag == 3){ // record or field
+  if(flag == 2 || flag == 3){ //! record or field
     if (block == -1){
       std::cout << "Index of Block to check: ";
       std::cin >> block;
@@ -365,7 +368,7 @@ bool SequenceSet::is_empty(int flag, int block = -1, int record = -1, int field 
       block--;
     }
 
-    if(!status){//block is valid
+    if(!status){//! block is valid
       if (record == -1){
         std::cout << "Index of Record to check: ";
         std::cin >> record;
@@ -380,11 +383,11 @@ bool SequenceSet::is_empty(int flag, int block = -1, int record = -1, int field 
 }
 
 
-/*
-  Method: search
-  param:
-  return:
-  purpose:
+/*!
+  * Method: search
+  * param:
+  * return:
+  * purpose:
 
 */
 std::vector<int> SequenceSet::search(std::string search_term){
@@ -417,19 +420,19 @@ std::vector<int> SequenceSet::search(std::string search_term){
 }
 
 
-/*
-  Method: populate
-  param:
-  return:
-  purpose:
-  we count blocks and records.
-  we open the file and skip the header and loop the rest
-  we create an empty node for a btree
+/** 
+  * Method: populate
+  * param:
+  * return:
+  * purpose:
+  * we count blocks and records.
+  * we open the file and skip the header and loop the rest
+  * we create an empty node for a btree
 
 */
 void SequenceSet::populate(){
-  int record_number;          //current record being coppied
-  int block_count = -1;      //current block number  int primary_key_i;
+  int record_number;          //! current record being coppied
+  int block_count = -1;      //! current block number  int primary_key_i;
 
   int primary_key_int;
   std::string primary_key_tmp;
@@ -437,7 +440,7 @@ void SequenceSet::populate(){
 
 
   Block *prev;
-  Index *current_node = new Index; //pointer to current node  in_file.open(in_filename);
+  Index *current_node = new Index; //! pointer to current node  in_file.open(in_filename);
   
   std::string line = "";
 
@@ -452,15 +455,15 @@ void SequenceSet::populate(){
   while(!in_file.eof()){
     record_number = 0;
 
-    //make btree node as neccessary
-    if(++index_place%3 == 0){ // make a new node every 3 primary keys
-      if(node_count++ > 0){ //first node skips this
-        current_node->nextNode = new Index; //move onto next node
-        current_node = current_node->nextNode; // remember where we are
-      }else //node count is 0
-        root = current_node; //if first then its the root
+    //! make btree node as neccessary
+    if(++index_place%3 == 0){ //! make a new node every 3 primary keys
+      if(node_count++ > 0){ //! first node skips this
+        current_node->nextNode = new Index; //! move onto next node
+        current_node = current_node->nextNode; //! remember where we are
+      }else //! node count is 0
+        root = current_node; //! if first then its the root
       
-      for (int i = 0; i < 4; i++){ //fill the children of the b tree
+      for (int i = 0; i < 4; i++){ //! fill the children of the b tree
         current_node -> key[i] = -1;
         current_node -> block[i] = NULL;
         current_node -> block[i] = NULL;
@@ -469,17 +472,17 @@ void SequenceSet::populate(){
       current_node -> parent = NULL;
     }
 
-    //make next (or first) Block:
-    Block *b = new Block;               //get the empty block
-    b -> previous = NULL;               //prev is null
-    b -> next = NULL;                   //next too
-    b -> data.resize(block_size);       //resize the array to be the length of the block sizes
+    //! make next (or first) Block:
+    Block *b = new Block;               //! get the empty block
+    b -> previous = NULL;               //! prev is null
+    b -> next = NULL;                   //! next too
+    b -> data.resize(block_size);       //! resize the array to be the length of the block sizes
     for(int i = 0; i < block_size; i++){
-      b -> data[i] = "";    //resize it for the length of a record   //ERROR
+      b -> data[i] = "";    //! resize it for the length of a record   //ERROR
     }
 
-    if(++block_count != 0){             //increase block count each iteration, and if it isnt 0 like the first iteration then set the first in the sequence set to be b
-      b -> previous = prev;             //if not then send it to the next node.
+    if(++block_count != 0){             //! increase block count each iteration, and if it isnt 0 like the first iteration then set the first in the sequence set to be b
+      b -> previous = prev;             //! if not then send it to the next node.
       prev -> next = b;
     }
     else
@@ -487,7 +490,7 @@ void SequenceSet::populate(){
     prev = b;
 
 
-    //while block isn't __% full, keep filling:
+    //! while block isn't __% full, keep filling:
     std::string line;
     while(record_number < (block_size * default_cap) && !in_file.eof()){
       std::getline(in_file, line);
@@ -498,7 +501,7 @@ void SequenceSet::populate(){
       }
     }
 
-    //get the primary key and add it to the tree DO CONTINUE ON FROM HERE
+    //! get the primary key and add it to the tree DO CONTINUE ON FROM HERE
     std::string tmp = prev->data[record_number];
     primary_key_tmp = tmp.substr(0,5);
     primary_key_tmp.resize(6);
@@ -511,18 +514,18 @@ void SequenceSet::populate(){
   }
   delete(prev);
   
-  //Build the B+ tree up from the "linked list" structure
+  //! Build the B+ tree up from the "linked list" structure
 
 
   close();
 }
 
 
-/*
-  Method: insert
-  param:
-  return:
-  purpose:
+/**
+  * Method: insert
+  * param:
+  * return:
+  * purpose:
 
 */
 void SequenceSet::insert(std::string new_record){
@@ -570,7 +573,7 @@ void SequenceSet::insert(std::string new_record){
     b = b -> next;
   }
 
-  //all blocks filled make a new one
+  //! all blocks filled make a new one
   if(!placed){
     block++;
     Block *new_b = new Block;
@@ -584,11 +587,11 @@ void SequenceSet::insert(std::string new_record){
 }
 
 
-/*
-  Method: remove
-  param:
-  return:
-  purpose:
+/**
+  * Method: remove
+  * param:
+  * return:
+  * purpose:
 
 */
 void SequenceSet::delete_record(int block = -1, int record = -1){
@@ -617,11 +620,11 @@ void SequenceSet::delete_record(int block = -1, int record = -1){
 }
 
 
-/*
-  Method: update
-  param:
-  return:
-  purpose:
+/**
+  * Method: update
+  * param:int block, int record, int field, std::string new_field
+  * return: updated record
+  * purpose:update a record
 
 */
 void SequenceSet::update(int block, int record, int field, std::string new_field){
@@ -662,11 +665,11 @@ void SequenceSet::update(int block, int record, int field, std::string new_field
 }
 
 
-/*
-  Method: display_record
-  param:
-  return:
-  purpose:
+/** 
+  * Method: display_record
+  * param:int record, int block
+  * return: record
+  * purpose:display record in a file
 
 */
 void SequenceSet::display_record(int record = -1, int block = -1){
@@ -701,11 +704,11 @@ void SequenceSet::display_record(int record = -1, int block = -1){
   delete(b);
 }
 
-/*
-  Method: display_field
-  param:
-  return:
-  purpose:
+/**
+  * Method: display_field
+  * param:int field, int record int block
+  * return:field in a record
+  * purpose:display fields
 
 */
 void SequenceSet::display_field(int field = -1, int record = -1, int block = -1){
@@ -765,7 +768,7 @@ std::string SequenceSet::get_field_from_record(int field, int record, int block)
     b = b -> next;
   }
 
-  std::string record_s;  // if we are not in range or acceptable give null
+  std::string record_s;  //! if we are not in range or acceptable give null
   if(b != NULL){
     int size = b->records_count;
     if(record >= 0 && record < size){
@@ -787,11 +790,11 @@ std::string SequenceSet::get_field_from_record(int field, int record, int block)
   return NULL;
 }
 
-/*
-  Method: display_file
-  param:
-  return:
-  purpose:
+/**
+ * Method: display_file
+ * param:int limit
+ * return:file
+ * purpose:return file
 
 */
 void SequenceSet::display_file(int limit = -1){
@@ -811,11 +814,11 @@ void SequenceSet::display_file(int limit = -1){
 }
 
 
-/*
-  Method: display_SS
-  param:
-  return:
-  purpose:
+/**
+  * Method: display_SS
+  * param:n/a
+  * return:Sequence set
+  * purpose:display sequence set
 
 */
 void SequenceSet::display_SS(){
@@ -853,11 +856,11 @@ void SequenceSet::display_SS(){
 }
 
 
-/*
-  Method: validate
-  param:
-  return:
-  purpose:
+/**
+  * Method: validate
+  * param:n\a
+  * return:n\a
+  * purpose:validate a record
 
 */
 void SequenceSet::validate(){
@@ -885,11 +888,11 @@ void SequenceSet::validate(){
 }
 
 
-/*
-  Method: addIndex
-  param:
-  return:
-  purpose:
+/**
+  * Method: addIndex
+  * param:int, Block
+  * return:n\a
+  * purpose:add an index
 
 */
 void SequenceSet::addIndex(int primKey, Block *b){
@@ -897,11 +900,11 @@ void SequenceSet::addIndex(int primKey, Block *b){
 }
 
 
-/*
-  Method: delIndex
-  param:
-  return:
-  purpose:
+/**
+  * Method: delIndex
+  * param:int primKey
+  * return:n\a
+  * purpose:delete an index
 
 */
 void SequenceSet::delIndex(int primKey){
@@ -917,22 +920,22 @@ void SequenceSet::delIndex(int primKey){
   
         in_file.read((char*)this, sizeof(SequenceSet)); 
   
-        // if(in_file)checks the buffer record in the file 
+        //! if(in_file)checks the buffer record in the file 
         if (in_file) { 
 
             int primarykey = 0;
   
-            // comparing the primKey with 
-            // primary key of record to be deleted 
+            //! comparing the primKey with 
+            //! primary key of record to be deleted 
             if (primKey == primarykey) { 
                 flag = 1; 
                 std::cout << "The deleted record is \n"; 
   
-                // display the record 
+                //! display the record 
                 display_SS(); 
             } 
             else { 
-                // copy the record of "us_postal_codes_formatted.txt" file to "us_postal_codes_sequence_set_file.txt" file 
+                //! copy the record of "us_postal_codes_formatted.txt" file to "us_postal_codes_sequence_set_file.txt" file 
                 out_file.write((char*)this, sizeof(SequenceSet)); 
             } 
         } 
@@ -941,10 +944,10 @@ void SequenceSet::delIndex(int primKey){
     out_file.close(); 
     in_file.close(); 
   
-    // delete the old file 
+    //! delete the old file 
     remove("us_postal_codes_formatted.txt"); 
   
-    // rename new file to the older file 
+    //! rename new file to the older file 
     rename("us_postal_codes_sequence_set_file.txt", "us_postal_codes_formatted.txt"); 
   
     if (flag == 1) 
@@ -955,11 +958,11 @@ void SequenceSet::delIndex(int primKey){
 }
 
 
-/*
-  Method: developer_show
-  param:
-  return:
-  purpose:
+/**
+  * Method: developer_show
+  * param:n\a
+  * return:n\a
+  * purpose:
 
 */
 void SequenceSet::developer_show(){
@@ -972,7 +975,7 @@ void SequenceSet::developer_show(){
   std::cout << "\n";
 }
 
-/*
+/*!
 often we want where the characters index is in the recod
 which is stored in the range
 but extracting that range isnt easy so heres a function to do it
@@ -1005,7 +1008,7 @@ void SequenceSet::nsew_most(std::string state){
       std::string s = r.substr(start,length);
       if (s == state){
         std::cout << r << "\n";
-        //find max of n, w, e, s
+        //!find max of n, w, e, s
       }
       i++;
     }
