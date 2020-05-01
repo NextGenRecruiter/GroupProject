@@ -517,23 +517,30 @@ void SequenceSet::populate(){
 */
 void SequenceSet::insert(std::string new_record){
   if(new_record == ""){
+    bool f = true;
     std::vector<std::string> constructed_record;
-    std::vector<int> ranges;
+    std::vector<int> ranges = {}, ranges_2 = {};
     std::string term;
     int i = 0;
     for(std::string field: field_labels){
       term = "";
       ranges = get_field_range_tuple(i);
-      int length = (ranges[1] - (ranges[0]-1));
+      int length = (ranges[1] - (ranges[0]))+1;
+      if(i >= 1){
+        ranges_2 = get_field_range_tuple(i-1);
+        if(ranges[0] - ranges_2[1] >= 2){
+          constructed_record.push_back(" ");
+        }
+      }
       while(term.size() != length){
         std::cout << "Input " << field << ": ";
         std::cin >> term;
-        term = add_c_to_a_til_size_of_b(term, length," ",false);
+        term = add_c_to_a_til_size_of_b(term, length," ",f);
       }
+      f = false;
       constructed_record.push_back(term);
       i++;
     }
-
     for(std::string s: constructed_record){
       new_record = new_record + s;
     }
@@ -547,7 +554,7 @@ void SequenceSet::insert(std::string new_record){
     block++;
     if(b -> records_count < block_size){
       b -> records_count++;
-      b -> data[b -> records_count] = std::to_string(b -> records_count) + " " + new_record;
+      b -> data[b -> records_count - 1] = std::to_string(b -> records_count-1) + " " + new_record;
       placed = true;
     }
     b = b -> next;
@@ -563,7 +570,7 @@ void SequenceSet::insert(std::string new_record){
     new_b -> data[new_b -> records_count - 1] = std::to_string(new_b -> records_count - 1) + " " + new_record;
   }
 
-  std::cout << "\nInserted into: \nBlock\t" << block << "\nRecord\t" << b -> records_count << "\n";
+  std::cout << "\nInserted into: \nBlock\t" << block << "\nRecord\t" << b -> records_count - 1 << "\n";
 }
 
 
