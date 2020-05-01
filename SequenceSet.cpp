@@ -684,7 +684,7 @@ void SequenceSet::display_field(int field = -1, int record = -1, int block = -1)
 
       if(field >= 0 && field < field_count){
         std::vector<int> ranges = get_field_range_tuple(field);
-        std::string field_s = record_s.substr(ranges[0] + std::to_string(block_size).size(), ranges[1]);
+        std::string field_s = record_s.substr(ranges[0]-1 + std::to_string(block_size).size(), (ranges[1] - (ranges[0]-2)));
         std::cout << "\n\'" << ranges[0] << "-" << ranges[1] << "\'\n";
         std::cout << "\n\'" << field_s << "\'\n";
         return;
@@ -872,7 +872,7 @@ but extracting that range isnt easy so heres a function to do it
 std::vector<int> SequenceSet::get_field_range_tuple(int field_index){
   std::string s = field_sizes[field_index];
   std::vector<std::string> sub_s = split_string(s, '-');
-  int low = atoi(sub_s[0].c_str()) - 1;
+  int low = atoi(sub_s[0].c_str());
   int high = atoi(sub_s[1].c_str());
   std::vector<int> r = {low,high};
   return r;

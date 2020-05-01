@@ -61,13 +61,13 @@ class SequenceSet
     void load();                                                              //done
     void close();                                                             //done
     bool is_empty(int flag, int block, int record, int field);                //done
-    int search(std::string search_term);                                      //done
+    int search(std::string search_term);//compltete                                      //done
     void populate();                                                         //todo
-    void insert(std::string new_record);                                                           //todo
+    void insert(std::string new_record);      //test                                                     //todo
     void delete_record(int block, int record);                                                              //todo
-    void update(int record, int field, std::string new_field);                                                           //todo
+    void update(int record, int field, std::string new_field);   //complete                                                        //todo
     void display_record(int record, int block);                                                   //todo
-    void display_field(int field, int record, int block);                                                    //todo
+    void display_field(int field, int record, int block);          //complete                                          //todo
     void display_file(int limit);                                                     //todo
     void display_SS();                                                       //todo
     void validate();                                                         //todo
