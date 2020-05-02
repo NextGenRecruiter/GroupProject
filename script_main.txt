@@ -1,0 +1,35 @@
+Script started on 2020-05-01 23:11:06-05:00
+
+> Executing task: & 'C:\Program Files (x86)\mingw-w64\i686-8.1.0-posix-dwarf-rt_v6-rev0\mingw32\bin\g++.exe' -g 'c:\Users\smika\Desktop\Sequence Set Group Project\GroupProject\main.cpp' -o 'c:\Users\smika\Desktop\Sequence Set Group Project\GroupProject\main.exe' <
+
+
+
+
+Terminal will be reused by tasks, press any key to close it.
+
+PS C:\Users\smika\Desktop\Sequence Set Group Project\GroupProject> .\main.exe a NY
+Finding the furthest zip codes in: NY
+
+
+North-most lat:44.9884
+South-most lat:40.5085
+
+East-most long:-79.7349
+West-most long:-71.944
+Press enter...
+PS C:\Users\smika\Desktop\Sequence Set Group Project\GroupProject> 
+
+PS C:\Users\smika\Desktop\Sequence Set Group Project\GroupProject> .\main.exe b 30006
+Finding the State and Place name of zip code: 30006
+GA Marietta
+Press enter...
+PS C:\Users\smika\Desktop\Sequence Set Group Project\GroupProject>
+PS C:\Users\smika\Desktop\Sequence Set Group Project\GroupProject> .\main.exe b 30006 30005
+Finding the State and Place name of zip code: 30006
+GA Marietta
+Finding the State and Place name of zip code: 30005
+GA Alpharetta
+Press enter...
+PS C:\Users\smika\Desktop\Sequence Set Group Project\GroupProject>
+
+Script done on 2020-05-01 23:12:04-05:00

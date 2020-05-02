@@ -116,7 +116,8 @@ SequenceSet::SequenceSet(int b_size, int r_size, float d_cap, std::string i_file
 
 */
 SequenceSet::~SequenceSet(){
-  delete(&field_count, &block_size, &record_size, &default_cap, &in_filename, &out_filename);
+  delete(&field_count, &block_size, &record_size, &default_cap, &in_filename, &out_filename, &first, &root, &primary_key_index);
+  delete(&end_of_header, &in_file, &out_file, &field_labels, &field_sizes, &field_types);
 }
 
 

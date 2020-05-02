@@ -107,8 +107,8 @@ int main(int arg_count, char** arg_values){
   }
 
   if(*arg_values[1] == 'b'){
-    std::cout << "Finding the State and Place name of zip code: " << arg_values[2] << "\n";
     for(int i = 2; i < arg_count; i++){
+      std::cout << "Finding the State and Place name of zip code: " << arg_values[i] << "\n";
       data.state_and_place_from_zip(arg_values[i]);
     }
   }
