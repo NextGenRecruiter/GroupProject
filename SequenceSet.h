@@ -38,7 +38,6 @@ class SequenceSet
     Block *first;
     Index *root;
     int field_count;          //count of fields per record
-    int *field_offset;        //character offset per record
     int block_size;           //records per block
     float default_cap;          //where the program will fill blocks to by default
     int record_size;          //number of characters per record
@@ -72,8 +71,8 @@ class SequenceSet
     void display_file(int limit);                                /*! function prototype display_file(int) displays file request by user input */                                           
     void display_SS();                                           /*! function prototype display_SS() to display the sequence set */                                               
     void validate();                                             /*! function prototype validate() to validate a record in the file */                                         
-    void addIndex(int primKey, Block *b);                        /*! function prototype addIndex(int, Block) that adds an index in a record */                                  
-    void delIndex(int primKey);                                  /*! function prototype delIndex(int) that removes an index in a record */                                                    
+    //void addIndex(int primKey, Block *b);                        /*! function prototype addIndex(int, Block) that adds an index in a record */                                  
+    //void delIndex(int primKey);                                  /*! function prototype delIndex(int) that removes an index in a record */                                                    
     void developer_show();                                       /*! function prototype developer_show() that creates the columns the record will be diplayed into*/
     int search_file(int primKey);                                /*! function prototype search_file(int) searches for a file */
     std::vector<int> get_field_range_tuple(int field_index);     /*! function prototype get_field_range_tuple(int) for extracting the range of character index in a record*/     

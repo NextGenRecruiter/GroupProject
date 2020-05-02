@@ -55,22 +55,6 @@ int main(int arg_count, char** arg_values){
 
   data.populate();              //!
 
-  //! show of arguments and example using them
-  std::cout << "You have entered " << arg_count << " arguments:" << "\n";
-  for (int i = 0; i < arg_count; ++i) 
-      std::cout << arg_values[i] << "\n";
-
-  if(*arg_values[1] == 'a'){
-    std::cout << "Finding the furthest zip codes in: " << arg_values[2] << "\n";
-    data.nsew_most(arg_values[2]);
-  }
-
-  if(arg_values[1] == "b"){
-
-  }
-
-
-
   //while(true)
   //  data.display_field();
 
@@ -78,7 +62,7 @@ int main(int arg_count, char** arg_values){
 
   //data.display_file();          //this works great
 
-  //data.display_SS();          //this works great
+  data.display_SS();          //this works great
 
   //data.developer_show();      //this works great
 
@@ -110,6 +94,21 @@ int main(int arg_count, char** arg_values){
   //data.display_SS();
   //data.validate();
 
+
+
+  //! show of arguments and example using them
+  std::cout << "You have entered " << arg_count << " arguments:" << "\n";
+  for (int i = 0; i < arg_count; ++i) 
+      std::cout << arg_values[i] << "\n";
+
+  if(*arg_values[1] == 'a'){
+    std::cout << "Finding the furthest zip codes in: " << arg_values[2] << "\n";
+    data.nsew_most(arg_values[2]);
+  }
+
+  if(arg_values[1] == "b"){
+
+  }
 
   //forbiden code here
   //wait for character so the screen does not disappear

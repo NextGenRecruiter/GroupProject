@@ -75,7 +75,7 @@ std::string add_c_to_a_til_size_of_b(std::string a,int b,std::string c, bool fro
 
 */
 SequenceSet::SequenceSet(){
-  block_size = 8;  //records per block
+  block_size = 512;  //records per block
   record_size = 1; //characters per record
   in_filename = "us_postal_codes_formatted.txt";
   out_filename = "us_postal_codes_sequence_set_file.txt";
@@ -155,7 +155,6 @@ void SequenceSet::create(){
   //! here i am making the header components to be at the top of the file 
   std::string file_type = "ascii";
   std::string header_record_size = "22 lines";
-  block_size = 512;
   record_size = -1;
   int max_record_count = -1;
   int f_count = field_count;
@@ -214,7 +213,7 @@ void SequenceSet::create(){
   * Method: load
   * param:n\a
   * return:n\a
-  * purpose:here we load blocks from the sequence set file into ram
+  * purpose:here we load blocks from the sequence set file into ram 
 */
 void SequenceSet::load(){
   //! create a local file for loading in that data
@@ -888,75 +887,6 @@ void SequenceSet::validate(){
 }
 
 
-/**
-  * Method: addIndex
-  * param:int, Block
-  * return:n\a
-  * purpose:add an index
-
-*/
-void SequenceSet::addIndex(int primKey, Block *b){
-
-}
-
-
-/**
-  * Method: delIndex
-  * param:int primKey
-  * return:n\a
-  * purpose:delete an index
-
-*/
-void SequenceSet::delIndex(int primKey){
-   int flag = 0; 
-  
-    std::ifstream in_file; 
-    in_file.open("us_postal_codes_formatted.txt", std::ios::in | std::ios::binary); 
-  
-    std::ofstream out_file; 
-    out_file.open("us_postal_codes_sequence_set_file.txt", std::ios::out | std::ios::binary); 
-  
-    while (!in_file.eof()) { 
-  
-        in_file.read((char*)this, sizeof(SequenceSet)); 
-  
-        //! if(in_file)checks the buffer record in the file 
-        if (in_file) { 
-
-            int primarykey = 0;
-  
-            //! comparing the primKey with 
-            //! primary key of record to be deleted 
-            if (primKey == primarykey) { 
-                flag = 1; 
-                std::cout << "The deleted record is \n"; 
-  
-                //! display the record 
-                display_SS(); 
-            } 
-            else { 
-                //! copy the record of "us_postal_codes_formatted.txt" file to "us_postal_codes_sequence_set_file.txt" file 
-                out_file.write((char*)this, sizeof(SequenceSet)); 
-            } 
-        } 
-    } 
-  
-    out_file.close(); 
-    in_file.close(); 
-  
-    //! delete the old file 
-    remove("us_postal_codes_formatted.txt"); 
-  
-    //! rename new file to the older file 
-    rename("us_postal_codes_sequence_set_file.txt", "us_postal_codes_formatted.txt"); 
-  
-    if (flag == 1) 
-        std::cout << "\nrecord successfully deleted \n"; 
-    else
-        std::cout << "\nrecord not found \n"; 
-
-}
-
 
 /**
   * Method: developer_show
@@ -1027,3 +957,74 @@ void SequenceSet::nsew_most(std::string state){
   }
 
 }
+
+
+/**
+  * Method: addIndex
+  * param:int, Block
+  * return:n\a
+  * purpose:add an index
+
+void SequenceSet::addIndex(int primKey, Block *b){
+
+}
+
+
+
+  * Method: delIndex
+  * param:int primKey
+  * return:n\a
+  * purpose:delete an index
+
+
+void SequenceSet::delIndex(int primKey){
+   int flag = 0; 
+  
+    std::ifstream in_file; 
+    in_file.open("us_postal_codes_formatted.txt", std::ios::in | std::ios::binary); 
+  
+    std::ofstream out_file; 
+    out_file.open("us_postal_codes_sequence_set_file.txt", std::ios::out | std::ios::binary); 
+  
+    while (!in_file.eof()) { 
+  
+        in_file.read((char*)this, sizeof(SequenceSet)); 
+  
+        //! if(in_file)checks the buffer record in the file 
+        if (in_file) { 
+
+            int primarykey = 0;
+  
+            //! comparing the primKey with 
+            //! primary key of record to be deleted 
+            if (primKey == primarykey) { 
+                flag = 1; 
+                std::cout << "The deleted record is \n"; 
+  
+                //! display the record 
+                display_SS(); 
+            } 
+            else { 
+                //! copy the record of "us_postal_codes_formatted.txt" file to "us_postal_codes_sequence_set_file.txt" file 
+                out_file.write((char*)this, sizeof(SequenceSet)); 
+            } 
+        } 
+    } 
+  
+    out_file.close(); 
+    in_file.close(); 
+  
+    //! delete the old file 
+    remove("us_postal_codes_formatted.txt"); 
+  
+    //! rename new file to the older file 
+    rename("us_postal_codes_sequence_set_file.txt", "us_postal_codes_formatted.txt"); 
+  
+    if (flag == 1) 
+        std::cout << "\nrecord successfully deleted \n"; 
+    else
+        std::cout << "\nrecord not found \n"; 
+
+}
+
+*/
