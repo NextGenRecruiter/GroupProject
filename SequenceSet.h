@@ -77,6 +77,7 @@ class SequenceSet
     int search_file(int primKey);                                /*! function prototype search_file(int) searches for a file */
     std::vector<int> get_field_range_tuple(int field_index);     /*! function prototype get_field_range_tuple(int) for extracting the range of character index in a record*/     
     void nsew_most(std::string state);                                       
+    void state_and_place_from_zip(std::string zip);
 };
 
 

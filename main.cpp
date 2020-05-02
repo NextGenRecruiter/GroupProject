@@ -62,7 +62,7 @@ int main(int arg_count, char** arg_values){
 
   //data.display_file();          //this works great
 
-  data.display_SS();          //this works great
+  //data.display_SS();          //this works great
 
   //data.developer_show();      //this works great
 
@@ -97,17 +97,20 @@ int main(int arg_count, char** arg_values){
 
 
   //! show of arguments and example using them
-  std::cout << "You have entered " << arg_count << " arguments:" << "\n";
-  for (int i = 0; i < arg_count; ++i) 
-      std::cout << arg_values[i] << "\n";
+  //std::cout << "You have entered " << arg_count << " arguments:" << "\n";
+  //for (int i = 0; i < arg_count; ++i) 
+  //    std::cout << arg_values[i] << "\n";
 
   if(*arg_values[1] == 'a'){
     std::cout << "Finding the furthest zip codes in: " << arg_values[2] << "\n";
     data.nsew_most(arg_values[2]);
   }
 
-  if(arg_values[1] == "b"){
-
+  if(*arg_values[1] == 'b'){
+    std::cout << "Finding the State and Place name of zip code: " << arg_values[2] << "\n";
+    for(int i = 2; i < arg_count; i++){
+      data.state_and_place_from_zip(arg_values[i]);
+    }
   }
 
   //forbiden code here

@@ -514,8 +514,7 @@ void SequenceSet::populate(){
   delete(prev);
   
   //! Build the B+ tree up from the "linked list" structure
-
-
+  
   close();
 }
 
@@ -583,6 +582,7 @@ void SequenceSet::insert(std::string new_record){
   }
 
   std::cout << "\nInserted into: \nBlock\t" << block << "\nRecord\t" << b -> records_count - 1 << "\n";
+  delete(b);
 }
 
 
@@ -660,7 +660,7 @@ void SequenceSet::update(int block, int record, int field, std::string new_field
       b -> data[record] = updated;
     }
   }
-
+  delete(b);
 }
 
 
@@ -922,16 +922,58 @@ std::vector<int> SequenceSet::get_field_range_tuple(int field_index){
 }
 
 
-void SequenceSet::nsew_most(std::string state){
-  int east_most = 0;
-  int west_most = 0;
-  int north_most = 0;
-  int south_most = 0;
-  Block *copy = first;
-  int n = -1, s = -1, e = -1, w = -1;
+
+void SequenceSet::state_and_place_from_zip(std::string zip){
+  Block *b = first;
+  std::string rec, zip_s, state_s, place_s;
+
+  std::vector<int> loc_zip = get_field_range_tuple(0);
+  int start_zip = std::to_string(block_size).size() + loc_zip[0] - 1, length_zip = loc_zip[1] - loc_zip[0] + 1;
 
   std::vector<int> loc = get_field_range_tuple(2);
-  int start = std::to_string(block_size).size() + loc[0] - 1, length_state = loc[1] - loc[0] + 1;
+  int start_state = std::to_string(block_size).size() + loc[0] - 1, length_state = loc[1] - loc[0] + 1;
+
+  std::vector<int> loc_p = get_field_range_tuple(1);
+  int start_place = std::to_string(block_size).size() + loc_p[0] - 1, length_place = loc_p[1] - loc_p[0] + 1;
+
+
+  while(b != NULL){
+    std::vector<std::string> records = b -> data;
+
+    int stop = b -> records_count - 2;
+
+    for (int i = 0; i < stop; i++){
+      rec = records[i];
+
+      zip_s = rec.substr(start_zip, length_zip);
+
+      if(zip_s == zip){
+        //std::cout << rec << "\n";
+
+        state_s = rec.substr(start_state, length_state);
+        place_s = rec.substr(start_place, length_place);
+
+        std::cout << state_s << " " << place_s << "\n";
+      }
+
+    }
+    b = b -> next;
+  }
+
+  delete(b);
+}
+
+
+void SequenceSet::nsew_most(std::string state){
+  Block *b = first;
+  std::string rec, rec_state, lat_s, long_s;
+  float lat_f, long_f;
+
+  std::vector<int> loc_zip = get_field_range_tuple(0);
+  int start_zip = std::to_string(block_size).size() + loc_zip[0] - 1, length_zip = loc_zip[1] - loc_zip[0] + 1;
+
+  std::vector<int> loc = get_field_range_tuple(2);
+  int start_state = std::to_string(block_size).size() + loc[0] - 1, length_state = loc[1] - loc[0] + 1;
 
   std::vector<int> loc_lat = get_field_range_tuple(4);
   int start_lat = std::to_string(block_size).size() + loc_lat[0] - 1, length_lat = loc_lat[1] - loc_lat[0] + 1;
@@ -939,22 +981,181 @@ void SequenceSet::nsew_most(std::string state){
   std::vector<int> loc_long = get_field_range_tuple(5);
   int start_long = std::to_string(block_size).size() + loc_long[0] - 1, length_long = loc_long[1] - loc_long[0] + 1;
 
+  float east_most = 181;//= atof(get_field_from_record(5,0,0).c_str());
+  float west_most = -181;//= atof(get_field_from_record(5,0,0).c_str());
+  float north_most = -91;//= atof(get_field_from_record(4,0,0).c_str());
+  float south_most = 91;//= atof(get_field_from_record(4,0,0).c_str());
+  
+  std::string zip_east_most;
+  std::string zip_west_most;
+  std::string zip_north_most;
+  std::string zip_south_most;
+
+  while(b != NULL){
+    std::vector<std::string> records = b -> data;
+
+    int stop = b -> records_count - 2;
+
+    for (int i = 0; i < stop; i++){
+      rec = records[i];
+      rec_state = rec.substr(start_state, length_state);
+
+      if(rec_state == state){
+        //std::cout << rec << "\n";
+
+        lat_s = rec.substr(start_lat,length_lat);
+        long_s = rec.substr(start_long,length_long);
+
+        lat_f = atof(lat_s.c_str());
+        long_f = atof(long_s.c_str());
+
+
+        if(lat_f < south_most){
+          south_most = lat_f;
+          zip_south_most = rec.substr();
+        }
+        if(lat_f > north_most){
+          north_most = lat_f;
+          zip_north_most = lat_f;
+        }
+        if(long_f <= east_most){
+          east_most = long_f;
+          zip_east_most = long_f;
+        }
+        if(long_f > west_most){
+          west_most = long_f;
+          zip_west_most = long_f;
+        }
+
+      }
+      
+    }
+
+
+    b = b -> next;
+  }
+
+  std::cout << "\n\nNorth-most lat:" << north_most << "\n";
+  std::cout << "South-most lat:" << south_most << "\n\n";
+  std::cout << "East-most long:" << east_most << "\n";
+  std::cout << "West-most long:" << west_most << "\n";
+  delete(b);
+}
+
+
+
+/*
+
+
+  bool found = false;
+
+  while(b != NULL && !found){
+    std::vector<std::string> records = b -> data;
+
+    int stop = b -> records_count - 2;
+
+    for (int i = 0; i < stop; i++){
+      rec = records[i];
+      rec_state = rec.substr(start_state, length_state);
+
+      if(rec_state == state){
+        lat_s = rec.substr(start_lat,length_lat);
+        long_s = rec.substr(start_long,length_long);
+        east_most= atof(long_s.c_str());
+        west_most= atof(long_s.c_str());
+        north_most= atof(lat_s.c_str());
+        south_most= atof(lat_s.c_str());
+      }
+
+      if(found){
+        i = stop;
+      }
+
+    }
+
+    b = b -> next;
+  }
+
+  b = first;
+
+
+
+
+
+void SequenceSet::nsew_most(std::string state){
+  float east_most = 0.0;
+  float west_most = 0.0;
+  float north_most = 0.0;
+  float south_most = 0.0;
+
+  //std::string zipcode_east_most = 0;
+  //std::string zipcode_west_most = 0;
+  //std::string zipcode_north_most = 0;
+  //std::string zipcode_south_most = 0;
+
+  Block *copy = first;
+
+  std::vector<int> loc = get_field_range_tuple(2);
+  int start = std::to_string(block_size).size() + loc[0] - 1, length_state = loc[1] - loc[0] + 1;
+
+  std::vector<int> loc_zip = get_field_range_tuple(0);
+  int start_zip = std::to_string(block_size).size() + loc_zip[0] - 1, length_zip = loc_zip[1] - loc_zip[0] + 1;
+
+  std::vector<int> loc_lat = get_field_range_tuple(4);
+  int start_lat = std::to_string(block_size).size() + loc_lat[0] - 1, length_lat = loc_lat[1] - loc_lat[0] + 1;
+
+  std::vector<int> loc_long = get_field_range_tuple(5);
+  int start_long = std::to_string(block_size).size() + loc_long[0] - 1, length_long = loc_long[1] - loc_long[0] + 1;
+
+  std::string lat_s, long_s, r, s, zip;
+
   while(copy != NULL){
     int i = 0;
+    float lat_f, long_f;
     while(i < copy -> records_count){
-      std::string r = copy -> data[i];
-      std::string s = r.substr(start,length_state);
+      r = copy -> data[i];
+      s = r.substr(start,length_state);
       if (s == state){
         std::cout << r << "\n";
         //find max of n, w, e, s
-        std::string lat_s = r.substr(start_lat,length_lat);
-        std::string long_s = r.substr(start_long,length_long);
-        std::cout << lat_s << "  -  " << long_s << "\n";
+        lat_s = r.substr(start_lat,length_lat);
+        long_s = r.substr(start_long,length_long);
+        zip = r.substr(start_zip, length_zip);
+        lat_f = atof(lat_s.c_str());
+        long_f = atof(long_s.c_str());
+        s = r.substr(start,length_state);
+        std::cout << lat_f << "  -  " << long_f << "\n";
+        if(lat_f <= south_most){
+          south_most = lat_f;
+          zipcode_south_most = zip;
+        }
+        if(lat_f > north_most){
+          north_most = lat_f;
+          zipcode_north_most = zip;
+        }
+        if(long_f <= east_most){
+          east_most = long_f;
+          zipcode_east_most = zip;
+        }
+        if(long_f > west_most){
+          west_most = long_f;
+          zipcode_west_most = r.substr(start_zip, length_zip);
+        }
       }
       i++;
     }
     copy = copy -> next;
   }
+
+  std::cout << "\n\nNorth-most lat:" << north_most << "\n";
+  std::cout << "South-most lat:" << south_most << "\n\n";
+  std::cout << "East-most long:" << east_most << "\n";
+  std::cout << "West-most long:" << west_most << "\n";
+
+  std::cout << "\n\nNorth-most zip-code:" << zipcode_north_most << "\n";
+  std::cout << "South-most zip-code:" << zipcode_south_most << "\n\n";
+  std::cout << "East-most zip-code:" << zipcode_east_most << "\n";
+  std::cout << "West-most zip-code:" << zipcode_west_most << "\n";
 
 }
 
